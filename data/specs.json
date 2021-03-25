@@ -1,0 +1,3301 @@
+{
+  "Demographics":
+  {
+    "name": "Demographics",
+    "stdvar": "_vdw_demographic",
+    "description": "Contains patient/enrollee level descriptives for the people found in VDW tables.  It serves as a lookup dataset for MRNs.  Every MRN appearing in any other VDW file should appear in the Demographics table, even if demographics information on the person is unknown.",
+    "columns": [
+    {
+      "name": "MRN",
+      "definition": "Medical record number is the unique patient identifier within a site and should never leave the site",
+      "type": "char",
+      "length": "*",
+      "valid_values": "Unique to each patient at each site",
+      "implementation_guidelines": "Used to link people across files within a site. May or may not contain the official local indigenous person identifier (e.g., 'medical record number')."
+    },
+    {
+      "name": "birth_date",
+      "definition": "The person's date of birth",
+      "type": "date",
+      "length": 4,
+      "valid_values": "Any SAS Date"
+    },
+    {
+      "name": "sex_admin",
+      "definition": "The person's 'administrative sex'–the value stored in official/legacy sources at last ascertainment",
+      "type": "char",
+      "length": 1,
+      "valid_values": [
+      {
+        "value": "F",
+        "meaning": "Female"
+      },
+      {
+        "value": "M",
+        "meaning": "Male"
+      },
+      {
+        "value": "X",
+        "meaning": "Neither Male nor Female"
+      },
+      {
+        "value": "O",
+        "meaning": "Other"
+      },
+      {
+        "value": "U",
+        "meaning": "Unknown, Uncertain, or Missing"
+      }],
+      "implementation_guidelines": [
+        "Legacy sources may designate the information we mean here as either 'sex' or 'gender' without regard for the distinction between these concepts. In the absence of specific knowledge that a given legacy source codes gender identity, implementers should default to placing legacy data in this variable.", "In general, any data collected before your organization began collecting detailed SOGI data should go in this field.", "The workgroup expects that sex_admin will be most similar to the existing gender field in terms of having informative values on >99% of records and will be the best single-field substitute for it.", "This is <strong>not</strong> compatible with <a href='https://phinvads.cdc.gov/vads/ViewValueSet.action?id=06D34BBC-617F-DD11-B38D-00188B398520'>PHVS_AdministrativeSex_HL7_2x</a> but should better accomodate the data we expect to be available at the sites."
+      ]
+    },
+    {
+      "name": "sex_at_birth",
+      "definition": "The person's sex as assigned at birth.",
+      "type": "char",
+      "length": 1,
+      "valid_values": [
+      {
+        "value": "F",
+        "meaning": "Female"
+      },
+      {
+        "value": "M",
+        "meaning": "Male"
+      },
+      {
+        "value": "I",
+        "meaning": "Intersex"
+      },
+      {
+        "value": "O",
+        "meaning": "Other"
+      },
+      {
+        "value": "U",
+        "meaning": "Uncertain, Unknown or Not recorded on birth certificate"
+      },
+      {
+        "value": "C",
+        "meaning": "Choose not to disclose"
+      }],
+      "implementation_guidelines": [
+        "The existence of the ‘Intersex’ and ‘Other’ options renders this incompatible with <a href='https://loinc.org/LL3324-2/'>LOINC LL3324-2</a>. Those values appear in our data and are foreseeably useful enough to research that we are comfortable departing from LOINC compatibility.", "It is expected that sex_admin may change over time as a person changes their legal and/or physical sex–this variable should not change.", "Missing values should be coded as Unknown."
+      ]
+    },
+    {
+      "name": "gender_identity",
+      "definition": "The person’s gender identity as subjectively experienced, on last ascertainment.",
+      "type": "char",
+      "length": 2,
+      "valid_values": [
+      {
+        "value": "FF",
+        "meaning": "Female"
+      },
+      {
+        "value": "MM",
+        "meaning": "Male"
+      },
+      {
+        "value": "FM",
+        "meaning": "Female to Male transgender"
+      },
+      {
+        "value": "MF",
+        "meaning": "Male to Female transgender"
+      },
+      {
+        "value": "GQ",
+        "meaning": "Genderqueer or non-conforming or non-binary or genderfluid"
+      },
+      {
+        "value": "OT",
+        "meaning": "Other"
+      },
+      {
+        "value": "ND",
+        "meaning": "Choose not to disclose"
+      },
+      {
+        "value": "UN",
+        "meaning": "Unknown"
+      }],
+      "implementation_guidelines": ["Compatible with <a href='https://phinvads.cdc.gov/vads/ViewValueSet.action?id=660779DA-64E9-E611-A856-0017A477041A'>PHVS_GenderIdentity_CDC</a> and <a href = 'https://loinc.org/LL3322-6/'>LOINC LL3322-6</a>.", "Values of ‘unsure/questioning’ should be coded as Other.", "Missing values should be coded as Unknown."]
+    },
+    {
+      "name": "Race1-Race5",
+      "definition": "The person's race. Preference is for self-reported; please see comment 1 for recording multiple race values",
+      "type": "char",
+      "length": 2,
+      "valid_values": [
+      {
+        "value": "HP",
+        "meaning": "Native Hawaiian / Pacific Islander"
+      },
+      {
+        "value": "IN",
+        "meaning": "American Indian / Alaskan Native"
+      },
+      {
+        "value": "AS",
+        "meaning": "Asian"
+      },
+      {
+        "value": "BA",
+        "meaning": "Black or African American"
+      },
+      {
+        "value": "WH",
+        "meaning": "White"
+      },
+      {
+        "value": "MU",
+        "meaning": "Multiple races with particular unknown"
+      },
+      {
+        "value": "OT",
+        "meaning": "Other, values that do not fit well in any other value"
+      },
+      {
+        "value": "UN",
+        "meaning": "Unknown or Not Reported"
+      }],
+      "implementation_guidelines": "See comments below."
+    },
+    {
+      "name": "Hispanic",
+      "definition": "Whether the person is of Hispanic origin / ethnicity",
+      "type": "char",
+      "length": 1,
+      "valid_values": [
+      {
+        "value": "Y",
+        "meaning": "Yes"
+      },
+      {
+        "value": "N",
+        "meaning": "No"
+      },
+      {
+        "value": "U",
+        "meaning": "Unknown"
+      }]
+    },
+    {
+
+      "name": "needs_interpreter",
+      "definition": "Whether the person needs an interpreter to communicate with an English-only speaker",
+      "type": "char",
+      "length": 1,
+      "valid_values": [
+      {
+        "value": "Y",
+        "meaning": "Yes"
+      },
+      {
+        "value": "N",
+        "meaning": "No"
+      },
+      {
+        "value": "U",
+        "meaning": "Unknown"
+      }],
+      "implementation_guidelines": "This variable is capable of changing over time. Populate with only the most recently known interpreter status."
+    }],
+    "primary_key": "MRN",
+    "comments": [
+    {
+      "title": "MRNs should be People",
+      "comment": "Sites should do their best to maintain a 1:1 correspondence between people and MRNs. Fictitious/test numbers should be removed from the VDW. People with > 1 assigned MRN should be merged into a single number (in all files)."
+    },
+    {
+      "title": "Hispanic ethnicity reported as race",
+      "comment": "If source data indicates the person's race as 'Hispanic' and there is no other known race recorded for the person, code the person's race as unknown. "
+    },
+    {
+      "title": "Recommended Mappings",
+      "comment": "Please see appendix A for guidelines on mapping local race values to the permissible value set listed above. "
+    },
+    {
+      "title": "Multiple Race Values",
+      "comment": "When more than one race is known for a given person, assign values to the race variables in the order listed above RACE values and fill in any unused race variables with the value UN for unknown / not reported. Examples of coding RACE1 through RACE5 are illustrated here:"
+    }]
+  },
+  "Enrollments":
+  {
+    "name": "Enrollments",
+    "stdvar": "_vdw_enroll",
+    "description": "The ENROLLMENT table contains periods of time during which we believe to have at least the partial capture of medical care information, either because of enrollment in a health plan or as a patient of a care delivery system that the implementing site owns or interacts with. Insurance coverage is <em>not</em> the only basis of data capture (see ENROLLMENT_BASIS) nor do all records necessarily indicate completeness of data capture (see the capture warning variables, which all begin with 'incomplete_'). Each record represents a period of time during which the information on the included variables was true.  As many records as are necessary should be added to represent changes over time. There may be many contiguous records for a single period of enrollment, in order to account for these changes.",
+    "columns": [
+    {
+      "name": "MRN",
+      "definition": "Medical record number is the unique patient identifier within a site and should never leave the site",
+      "type": "char",
+      "length": "*",
+      "valid_values": "Unique to each patient at each site",
+      "implementation_guidelines": "Used to link people across files within a site. May or may not contain the official local indigenous person identifier (e.g., 'medical record number')."
+    },
+    {
+      "name": "enr_start",
+      "definition": "Beginning of the period at risk for medical care capture",
+      "type": "num",
+      "length": 4,
+      "valid_values": "SAS Date",
+      "implementation_guidelines": "Sites with exact date information on starts/stops should use them; those that do not should use the first and last days of the month. Periods that are ongoing at the time the file is created should bear the last day of known, actual enrollment at the time of the update. E.g. if source data if realtime, enr_end would be set to &sysdate but is source data is updated weekly, enr_end would be the last day of the week prior to the update."
+    },
+    {
+      "name": "enr_end",
+      "definition": "End of the period at risk for medical care capture",
+      "type": "num",
+      "length": 4,
+      "valid_values": "SAS Date"
+    },
+    {
+      "name": "PCC",
+      "definition": "The primary care <strong>clinic</strong> to which the patient is paneled in the administrative record.",
+      "type": "char",
+      "length": "*",
+      "valid_values": "Values link as a foreign key to <a href='facility.html'>Facility.facility_code</a>."
+    },
+    {
+      "name": "PCP",
+      "definition": "The primary care <strong>physician</strong> to which the patient is paneled in the administrative record.",
+      "type": "char",
+      "length": "*",
+      "valid_values": "Values link as a foreign key to <a href='providers.html'>Provider.provider</a>."
+    },
+    {
+      "name": "enrollment_basis",
+      "definition": "The basis for the claim that we have at least partial capture of the medical care information during the period.",
+      "type": "char",
+      "length": 1,
+      "valid_values": [
+      {
+        "value": "I",
+        "meaning": "Insurance"
+      },
+      {
+        "value": "P",
+        "meaning": "Non-enrolled patient"
+      },
+      {
+        "value": "G",
+        "meaning": "Geography"
+      },
+      {
+        "value": "B",
+        "meaning": "Both geography & insurance"
+      }],
+      "implementation_guidelines": "Historically <strong>I</strong>nsurance was the only permissible basis. This was expanded as <abbr title='Health Care Systems Research Network'>HCSRN</abbr> took on new member organizations which were pure providers of health care and had no insurance function."
+    },
+    {
+      "name": "incomplete_outpt_rx",
+      "definition": "Is <strong>outpatient pharmacy fill</strong> data suspected to be incomplete for this person/period?",
+      "type": "char",
+      "length": 1,
+      "valid_values": [
+      {
+        "value": "K",
+        "meaning": "There are known reasons to suspect incomplete capture"
+      },
+      {
+        "value": "N",
+        "meaning": "No, there is no known reason to suspect incomplete capture"
+      },
+      {
+        "value": "X",
+        "meaning": "This variable not implemented at this site"
+      }]
+    },
+    {
+      "name": "incomplete_outpt_enc",
+      "definition": "Is <strong>outpatient encounter</strong> data suspected to be incomplete for this person/period?",
+      "type": "char",
+      "length": 1,
+      "valid_values": [
+      {
+        "value": "K",
+        "meaning": "There are known reasons to suspect incomplete capture"
+      },
+      {
+        "value": "N",
+        "meaning": "No, there is no known reason to suspect incomplete capture"
+      },
+      {
+        "value": "X",
+        "meaning": "This variable not implemented at this site"
+      }]
+    },
+    {
+      "name": "incomplete_inpt_enc",
+      "definition": "Is <strong>inpatient encounter</strong> data suspected to be incomplete for this person/period?",
+      "type": "char",
+      "length": 1,
+      "valid_values": [
+      {
+        "value": "K",
+        "meaning": "There are known reasons to suspect incomplete capture"
+      },
+      {
+        "value": "N",
+        "meaning": "No, there is no known reason to suspect incomplete capture"
+      },
+      {
+        "value": "X",
+        "meaning": "This variable not implemented at this site"
+      }]
+    },
+    {
+      "name": "incomplete_emr",
+      "definition": "Is <strong>electronic medical record</strong> (e.g., social history, vital signs) data suspected to be incomplete for this person/period?",
+      "type": "char",
+      "length": 1,
+      "valid_values": [
+      {
+        "value": "K",
+        "meaning": "There are known reasons to suspect incomplete capture"
+      },
+      {
+        "value": "N",
+        "meaning": "No, there is no known reason to suspect incomplete capture"
+      },
+      {
+        "value": "X",
+        "meaning": "This variable not implemented at this site"
+      }]
+    },
+    {
+      "name": "incomplete_tumor",
+      "definition": "Is <strong>tumor</strong> data suspected to be incomplete for this person/period?",
+      "type": "char",
+      "length": 1,
+      "valid_values": [
+      {
+        "value": "K",
+        "meaning": "There are known reasons to suspect incomplete capture"
+      },
+      {
+        "value": "N",
+        "meaning": "No, there is no known reason to suspect incomplete capture"
+      },
+      {
+        "value": "X",
+        "meaning": "This variable not implemented at this site"
+      }]
+    },
+    {
+      "name": "incomplete_lab",
+      "definition": "Is <strong>lab results</strong> data suspected to be incomplete for this person/period?",
+      "type": "char",
+      "length": 1,
+      "valid_values": [
+      {
+        "value": "K",
+        "meaning": "There are known reasons to suspect incomplete capture"
+      },
+      {
+        "value": "N",
+        "meaning": "No, there is no known reason to suspect incomplete capture"
+      },
+      {
+        "value": "X",
+        "meaning": "This variable not implemented at this site"
+      }]
+    },
+    {
+      "name": "ins_medicaid",
+      "definition": "Whether the person had any Medicaid insurance coverage during the period",
+      "type": "char",
+      "length": 1,
+      "valid_values": [
+      {
+        "value": "Y",
+        "meaning": "Yes"
+      },
+      {
+        "value": "E",
+        "meaning": "Yes, but from an External organization"
+      },
+      {
+        "value": "N",
+        "meaning": "No"
+      },
+      {
+        "value": "U",
+        "meaning": "Unknown"
+      }],
+      "implementation_guidelines": "<p>See Appendix B for detailed descriptions of each insurance coverage.</p>"
+    },
+    {
+      "name": "ins_commercial",
+      "definition": "Whether the person had any commercial insurance coverage during the period",
+      "type": "char",
+      "length": 1,
+      "valid_values": [
+      {
+        "value": "Y",
+        "meaning": "Yes"
+      },
+      {
+        "value": "E",
+        "meaning": "Yes, but from an External organization"
+      },
+      {
+        "value": "N",
+        "meaning": "No"
+      },
+      {
+        "value": "U",
+        "meaning": "Unknown"
+      }],
+      "implementation_guidelines": "<p>See Appendix B for detailed descriptions of each insurance coverage.</p>"
+    },
+    {
+      "name": "ins_privatepay",
+      "definition": "Whether the person had any insurance coverage in a private pay plan during the period",
+      "type": "char",
+      "length": 1,
+      "valid_values": [
+      {
+        "value": "Y",
+        "meaning": "Yes"
+      },
+      {
+        "value": "E",
+        "meaning": "Yes, but from an External organization"
+      },
+      {
+        "value": "N",
+        "meaning": "No"
+      },
+      {
+        "value": "U",
+        "meaning": "Unknown"
+      }],
+      "implementation_guidelines": "<p>Broadly defined as the individual bearing nearly all of the cost of the premium.</p> <p>See Appendix B for detailed descriptions of each insurance coverage.</p>"
+    },
+    {
+      "name": "ins_statesubsidized",
+      "definition": "Whether the person had any state subsidized insurance coverage during the period",
+      "type": "char",
+      "length": 1,
+      "valid_values": [
+      {
+        "value": "Y",
+        "meaning": "Yes"
+      },
+      {
+        "value": "E",
+        "meaning": "Yes, but from an External organization"
+      },
+      {
+        "value": "N",
+        "meaning": "No"
+      },
+      {
+        "value": "U",
+        "meaning": "Unknown"
+      }],
+      "implementation_guidelines": "<p>Typically covers lower income individuals who do not qualify for Medicaid.</p><p>See Appendix B for detailed descriptions of each insurance coverage.</p>"
+    },
+    {
+      "name": "ins_selffunded",
+      "definition": "Whether the person had any insurance coverage through an employer group that insures itself during the period",
+      "type": "char",
+      "length": 1,
+      "valid_values": [
+      {
+        "value": "Y",
+        "meaning": "Yes"
+      },
+      {
+        "value": "E",
+        "meaning": "Yes, but from an External organization"
+      },
+      {
+        "value": "N",
+        "meaning": "No"
+      },
+      {
+        "value": "U",
+        "meaning": "Unknown"
+      }],
+      "implementation_guidelines": "<p>Typically commercial employers who bear employee's medical risk. The HMO serves as a claims administrator.</p> <p>See Appendix B for detailed descriptions of each insurance coverage.</p>"
+    },
+    {
+      "name": "ins_highdeductible",
+      "definition": "Whether the person had any insurance coverage in a high deductible plan during the period as defined by the <a href='https://www.irs.gov/publications/p969'>U.S. IRS (Pub 969)</a> qualifying for a Health Savings Account",
+      "type": "char",
+      "length": 1,
+      "valid_values": [
+      {
+        "value": "Y",
+        "meaning": "Yes"
+      },
+      {
+        "value": "E",
+        "meaning": "Yes, but from an External organization"
+      },
+      {
+        "value": "N",
+        "meaning": "No"
+      },
+      {
+        "value": "U",
+        "meaning": "Unknown"
+      }],
+      "implementation_guidelines": "<p>See Appendix B for detailed descriptions of each insurance coverage.</p>"
+    },
+    {
+      "name": "ins_medicare",
+      "definition": "Whether the person had any Medicare insurance coverage, including Medicare working aged, during the period",
+      "type": "char",
+      "length": 1,
+      "valid_values": [
+      {
+        "value": "Y",
+        "meaning": "Yes"
+      },
+      {
+        "value": "E",
+        "meaning": "Yes, but from an External organization"
+      },
+      {
+        "value": "N",
+        "meaning": "No"
+      },
+      {
+        "value": "U",
+        "meaning": "Unknown"
+      }],
+      "implementation_guidelines": "<p>See Appendix B for detailed descriptions of each insurance coverage.</p> <p>If any ins_medicare_X variables are set to 'Y', this variable should also equal 'Y'.</p>"
+    },
+    {
+      "name": "ins_medicare_a",
+      "definition": "Whether the person had any Medicare Part A insurance coverage, including Medicare working aged, during the period",
+      "type": "char",
+      "length": 1,
+      "valid_values": [
+      {
+        "value": "Y",
+        "meaning": "Yes"
+      },
+      {
+        "value": "E",
+        "meaning": "Yes, but from an External organization"
+      },
+      {
+        "value": "N",
+        "meaning": "No"
+      },
+      {
+        "value": "U",
+        "meaning": "Unknown"
+      }],
+      "implementation_guidelines": "<p>Part A generally covers <strong>inpatient</strong> care.</p> <p>See Appendix B for detailed descriptions of each insurance coverage.</p>"
+    },
+    {
+      "name": "ins_medicare_b",
+      "definition": "Whether the person had any Medicare Part B insurance coverage, including Medicare working aged, during the period",
+      "type": "char",
+      "length": 1,
+      "valid_values": [
+      {
+        "value": "Y",
+        "meaning": "Yes"
+      },
+      {
+        "value": "E",
+        "meaning": "Yes, but from an External organization"
+      },
+      {
+        "value": "N",
+        "meaning": "No"
+      },
+      {
+        "value": "U",
+        "meaning": "Unknown"
+      }],
+      "implementation_guidelines": "<p>Part B generally covers <strong>outpatient</strong> care.</p> <p>See Appendix B for detailed descriptions of each insurance coverage.</p>"
+    },
+    {
+      "name": "ins_medicare_c",
+      "definition": "Whether the person had any Medicare Part C insurance coverage, including Medicare working aged, during the period",
+      "type": "char",
+      "length": 1,
+      "valid_values": [
+      {
+        "value": "Y",
+        "meaning": "Yes"
+      },
+      {
+        "value": "E",
+        "meaning": "Yes, but from an External organization"
+      },
+      {
+        "value": "N",
+        "meaning": "No"
+      },
+      {
+        "value": "U",
+        "meaning": "Unknown"
+      }],
+      "implementation_guidelines": "<p>Part C generally covers inpatient and outpatient but with <strong>capitated payment</strong> to the insurance provider.</p> <p>See Appendix B for detailed descriptions of each insurance coverage.</p>"
+    },
+    {
+      "name": "ins_medicare_d",
+      "definition": "Whether the person had any Medicare Part D insurance coverage, including Medicare working aged, during the period",
+      "type": "char",
+      "length": 1,
+      "valid_values": [
+      {
+        "value": "Y",
+        "meaning": "Yes"
+      },
+      {
+        "value": "E",
+        "meaning": "Yes, but from an External organization"
+      },
+      {
+        "value": "N",
+        "meaning": "No"
+      },
+      {
+        "value": "U",
+        "meaning": "Unknown"
+      }],
+      "implementation_guidelines": "<p>Part D generally covers prescription drugs.</p> <p>See Appendix B for detailed descriptions of each insurance coverage.</p>"
+    },
+    {
+      "name": "ins_other",
+      "definition": "Whether the person had insurance coverage during the period that is not otherwise included in the INS_* variables during the period",
+      "type": "char",
+      "length": 1,
+      "valid_values": [
+      {
+        "value": "Y",
+        "meaning": "Yes"
+      },
+      {
+        "value": "E",
+        "meaning": "Yes, but from an External organization"
+      },
+      {
+        "value": "N",
+        "meaning": "No"
+      },
+      {
+        "value": "U",
+        "meaning": "Unknown"
+      }],
+      "implementation_guidelines": "<p>Any other insurance type not adequetely categorized by one of the other INS_* variables.</p> <p>See Appendix B for detailed descriptions of each insurance coverage.</p>"
+    },
+    {
+      "name": "plan_hmo",
+      "definition": "Whether the person had insurance coverage under an HMO plan during the period",
+      "type": "char",
+      "length": 1,
+      "valid_values": [
+      {
+        "value": "Y",
+        "meaning": "Yes"
+      },
+      {
+        "value": "E",
+        "meaning": "Yes, but from an External organization"
+      },
+      {
+        "value": "N",
+        "meaning": "No"
+      },
+      {
+        "value": "U",
+        "meaning": "Unknown"
+      }],
+      "implementation_guidelines": "See Appendix B for detailed descriptions of each plan type."
+    },
+    {
+      "name": "plan_pos",
+      "definition": "Whether the person had insurance coverage under a point-of-service plan during the period",
+      "type": "char",
+      "length": 1,
+      "valid_values": [
+      {
+        "value": "Y",
+        "meaning": "Yes"
+      },
+      {
+        "value": "E",
+        "meaning": "Yes, but from an External organization"
+      },
+      {
+        "value": "N",
+        "meaning": "No"
+      },
+      {
+        "value": "U",
+        "meaning": "Unknown"
+      }],
+      "implementation_guidelines": "See Appendix B for detailed descriptions of each plan type."
+    },
+    {
+      "name": "plan_ppo",
+      "definition": "Whether the person had insurance coverage under a Preferred Provider Organization plan during the period",
+      "type": "char",
+      "length": 1,
+      "valid_values": [
+      {
+        "value": "Y",
+        "meaning": "Yes"
+      },
+      {
+        "value": "E",
+        "meaning": "Yes, but from an External organization"
+      },
+      {
+        "value": "N",
+        "meaning": "No"
+      },
+      {
+        "value": "U",
+        "meaning": "Unknown"
+      }],
+      "implementation_guidelines": "See Appendix B for detailed descriptions of each plan type."
+    },
+    {
+      "name": "plan_indemnity",
+      "definition": "Whether the person had insurance coverage under a traditional indemnity plan during the period",
+      "type": "char",
+      "length": 1,
+      "valid_values": [
+      {
+        "value": "Y",
+        "meaning": "Yes"
+      },
+      {
+        "value": "E",
+        "meaning": "Yes, but from an External organization"
+      },
+      {
+        "value": "N",
+        "meaning": "No"
+      },
+      {
+        "value": "U",
+        "meaning": "Unknown"
+      }],
+      "implementation_guidelines": "See Appendix B for detailed descriptions of each plan type."
+    }],
+    "primary_key": "MRN + ENR_START (no overlapping time periods are permitted)",
+    "comments": [
+    {
+      "title": "Capture Warning (INCOMPLETE_XXX) Variables",
+      "comment": "For the INCOMPLETE_XXX variables, users are advised to treat N and X values as essentially identical in information content.  For applications that require, for example, complete Tumor data over time, we recommend using a condition like:  WHERE incomplete_tumor ne 'K'.  Users may also want to avail themselves of the enrollment_basis variable for applications that require complete pharmacy or encounter data.  When in doubt please check with your sites."
+    },
+    {
+      "title": "No Overlapping Periods",
+      "comment": "There may be many contiguous records for a single period of enrollment, in order to account for changes in the substantive variables. However, periods <strong>must not overlap one another</strong>; there should be only one record covering any given day + medical record number.  Discussion and code on how to implement non-overlapping periods is available on the HCSRN website. The following graphic depicts how data should be split out into multiple records."
+    }]
+  },
+  "Languages":
+  {
+    "name": "Patient Languages",
+    "stdvar": "_vdw_language",
+    "description": "The LANGUAGE table contains information on the languages that patients speak and write. There is one record per person per known language. People on whom you have no language information should not be included in the table.",
+    "columns": [
+    {
+      "name": "MRN",
+      "definition": "Medical record number is the unique patient identifier within a site and should never leave the site",
+      "type": "char",
+      "length": "*",
+      "valid_values": "Unique to each patient at each site",
+      "implementation_guidelines": "Used to link people across files within a site. May or may not contain the official local indigenous person identifier (e.g., 'medical record number')."
+    },
+    {
+      "name": "lang_iso",
+      "definition": "A code signifying the language.",
+      "type": "char",
+      "length": 3,
+      "valid_values": "As defined by <a href='http://www.loc.gov/standards/iso639-2/langhome.html'>ISO-639-2</a> or 'unk' for unknown.",
+      "implementation_guidelines": "Note that value set is lowercase."
+    },
+    {
+      "name": "lang_usage",
+      "definition": "How the person uses this language.",
+      "type": "char",
+      "length": 1,
+      "valid_values": [
+      {
+        "value": "S",
+        "meaning": "Spoken/signed"
+      },
+      {
+        "value": "W",
+        "meaning": "Written"
+      },
+      {
+        "value": "B",
+        "meaning": "Both spoken and written"
+      },
+      {
+        "value": "U",
+        "meaning": "Unknown"
+      }]
+    },
+    {
+      "name": "lang_primary",
+      "definition": "For spoken languages, whether this is the person's primary spoken language.",
+      "type": "char",
+      "length": 1,
+      "valid_values": [
+      {
+        "value": "Y",
+        "meaning": "Yes"
+      },
+      {
+        "value": "N",
+        "meaning": "No"
+      },
+      {
+        "value": "U",
+        "meaning": "Unknown"
+      }]
+    }],
+    "primary_key": "MRN + lang_iso",
+    "comments": [
+    {
+      "title": "Only Known Languages",
+      "comment": "People for which you have no language information should not be included in this table."
+    }]
+  },
+  "Facility":
+  {
+    "name": "Facility Lookup",
+    "stdvar": "_vdw_facility",
+    "description": "Contains the most recent information about each health care facility found in the implementing site's VDW tables.",
+    "columns": [
+    {
+      "name": "facility_code",
+      "definition": "An implementing-site-unique identifier of a health care facility",
+      "type": "char",
+      "length": "*",
+      "valid_values": "Any non-null value",
+      "implementation_guidelines": "<p>Must be unique and never missing.</p><p>Length and contents should match all other instances of this field.</p>"
+    },
+    {
+      "name": "relationship",
+      "definition": "Relationship between the facility and the implementing site.",
+      "type": "char",
+      "length": 1,
+      "valid_values": [
+      {
+        "value": "O",
+        "meaning": "Owned and/or operated by your health care organization."
+      },
+      {
+        "value": "E",
+        "meaning": "External facility.  A facility NOT owned nor operated by your health care organization.  Includes contract facilities."
+      },
+      {
+        "value": "U",
+        "meaning": "Unknown "
+      }],
+      "implementation_guidelines": "See comment 1 below."
+    },
+    {
+      "name": "relationship_history",
+      "definition": "Describes the relationhship history between the facility and your health care organization.",
+      "type": "char",
+      "length": 1,
+      "valid_values": [
+      {
+        "value": "O",
+        "meaning": "Always owned and/or operated by your health care organization."
+      },
+      {
+        "value": "E",
+        "meaning": "Always an external facility (includes contract facilities)."
+      },
+      {
+        "value": "1",
+        "meaning": "Was an owned facility, most recently an external facility"
+      },
+      {
+        "value": "2",
+        "meaning": "Was an external facility, most recently an owned facility"
+      },
+      {
+        "value": "U",
+        "meaning": "Unknown "
+      }],
+      "implementation_guidelines": "See comment 1 below."
+    },
+    {
+      "name": "address_facility_type",
+      "definition": "Specify whether the address information is for a clinical or billing location",
+      "type": "char",
+      "length": 1,
+      "valid_values": [
+
+        {
+          "value": "C",
+          "meaning": "Clinical Facility"
+        },
+        {
+          "value": "B",
+          "meaning": "Billing Facility"
+        },
+        {
+          "value": "U",
+          "meaning": "Unknown"
+        }
+      ],
+      "implementation_guidelines": "If both types of locations are known, include only the Clinical location. Populate only if at least Zip code is known."
+    },
+    {
+      "name": "full_address",
+      "definition": "Full address of the facility",
+      "type": "char",
+      "length": "*",
+      "valid_values": "Street address, city, state, zip combined in to one variable, or null.",
+      "implementation_guidelines": "A concatenation of the address component variables that follow, for sites that don't have them parsed out in indigenous data."
+    },
+    {
+      "name": "street_address",
+      "definition": "Street address of the facility.",
+      "type": "char",
+      "length": "*",
+      "valid_values": "Any, including null.",
+      "implementation_guidelines": "Use the street address for the clinical location if possible.  If not, then use the billing facility address. This field is populated if the information is readily available in indigenous data."
+    },
+    {
+      "name": "city",
+      "definition": "City where the facility is located ",
+      "type": "char",
+      "length": "*",
+      "valid_values": "Any city name, or null.",
+      "implementation_guidelines": "This field is populated if the information is readily available in the source system. "
+    },
+    {
+      "name": "state",
+      "definition": "State where the facility is located",
+      "type": "char",
+      "length": 2,
+      "valid_values": "Any valid State or Province abbreviation, or null",
+      "implementation_guidelines": "This field is populated if the information is easily available in the source system. "
+    },
+    {
+      "name": "zip",
+      "definition": "Zip code of the facility (5 or 9 digits) or null.",
+      "type": "char",
+      "length": 9,
+      "valid_values": "5 or 9 digit zip code, with leading zeroes, and no dashes, or null.<p>For example:<br/>01234<br/>12345<br/>123456789</p>",
+      "implementation_guidelines": "Retain leading zeroes, but do not pad out 5 digit source values with additional leading or trailing zeroes. For example:<ul><li>source value of '01234' remains '01234'</li><li>source value of '12345' remains '12345' not '123450000' or '000012345'</li></ul>"
+    },
+    {
+      "name": "latitude",
+      "definition": "latitude of the location in degrees",
+      "type": "num",
+      "length": 8,
+      "valid_values": "Real numbers between -90 and 90, or missing.",
+      "implementation_guidelines": "Generally obtained by geocoding the address indicated in the foregoing fields."
+    },
+    {
+      "name": "longitude",
+      "definition": "longitude of the location in degrees",
+      "type": "num",
+      "length": 8,
+      "valid_values": "Real numbers between -90 and 90, or missing.",
+      "implementation_guidelines": "Generally obtained by geocoding the address indicated in the foregoing fields."
+    }],
+    "comments": [
+      {
+        "title": "Relationship of Facility to Implementing Site",
+        "comment": "Implementers at <abbr title='Health Maintenance Organization'>HMO</abbr>s typically have data on care ocurring both internal to their health system, and outside of it (from submitted claims). There are two major implications of this internal/external distinction. <p>First, health plans typically have more control on the type, volume, quality, and cost of care at the facilities that they own and/or operate.  There is a stronger incentive to provide efficient care and providers at these facilities probably have access to more complete patient information. Health plans typically have less control over external facilities.  These external facilities often have different incentives and thus, care patterns may be different.   For instance, the mom delivery C-section rate may be different at owned hospitals as compared to external hospitals.  Despite the disadvantages, it's also possible that patients may receive better care at an external facility (the specialty group with the best reputation in the service area may be at an external facility).</p><p>Second, facility locations indicated on incoming claims may only include the billing location--where payment should be submited.</p>"
+      },
+      {
+        "title": "Prefer Clinical Locations",
+        "comment": "A common application for this table is estimating the distance patients must travel in order to obtain care. For that reason we always prefer to have the locations where care takes place (clinical locations) rather than the locations to which payments should be submitted (billing locations)."
+      }
+
+    ],
+    "primary_key": "facility_code"
+  },
+  "Providers":
+  {
+    "name": "Providers",
+    "stdvar": "_vdw_provider_specialty",
+    "description": "The PROVIDER table contains proivder level descriptives for the providers found in VDW tables.  Every provider appearing in any other VDW file should appear in the PROVIDER table, even if demographics information is unknown.",
+    "columns": [
+      {
+        "name": "provider",
+        "definition": "The unique provider identifier.",
+        "type": "char",
+        "valid_values": "Any unique non-null value."
+      },
+      {
+        "name": "specialty",
+        "definition": "The provider's specialty.",
+        "type": "char",
+        "length": 3,
+        "valid_values": "One of the values given in <a href='./appendix_c_specialty.html'>Appendix C</a>.",
+        "implementation_guidelines": "<p>If multiple specialties are known and the provider's current primary specialty is known, put the primary/current specialty in this variable.</p>See recommended mappings on the <a href='https://hcsrn.org'>HCSRN portal</a>."
+      },
+      {
+        "name": "specialty2-specialty<strong><em>N</em></strong>",
+        "definition": "Optional variables (as many as desired) to indicate when a provider has multiple specialties.",
+        "type": "char",
+        "length": 3,
+        "valid_values": "One of the values given in <a href='./appendix_c_specialty.html'>Appendix C: Provider Specialties</a>."
+      }
+
+      ,
+      {
+        "name": "provider_type",
+        "definition": "The position, job, title, or role of the provider.",
+        "type": "char",
+        "length": 3,
+        "valid_values": "One of the values given in <a href='./appendix_c_type.html'>Appendix C:Provider Types</a>."
+      },
+      {
+        "name": "provider_birth_year",
+        "definition": "The year that the provider was born.",
+        "type": "num",
+        "length": 4,
+        "valid_values": "Any integer > 1800, or null if unknown"
+      }
+
+      ,
+      {
+        "name": "year_graduated",
+        "definition": "The year that the provider graduated from medical/nursing/technical school.",
+        "type": "num",
+        "length": 4,
+        "valid_values": "Any integer > 1800, or null if unknown"
+      }
+
+      ,
+      {
+        "name": "provider_gender",
+        "definition": "The provider's gender and/or sex;  if both gender and sex are known, this variable holds gender.",
+        "type": "char",
+        "length": 1,
+        "valid_values": [
+        {
+          "value": "M",
+          "meaning": "Male"
+        },
+        {
+          "value": "F",
+          "meaning": "Female"
+        },
+        {
+          "value": "O",
+          "meaning": "Other including transgendered"
+        },
+        {
+          "value": "U",
+          "meaning": "Unknown"
+        }]
+      },
+      {
+        "name": "provider_race",
+        "definition": "The provider's race",
+        "type": "char",
+        "length": 2,
+        "valid_values": "As defined in <a href='demographics.html'>race1 in the Demographics specification.</a>"
+      },
+      {
+        "name": "provider_hispanic",
+        "definition": "The provider's ethnicity",
+        "type": "char",
+        "length": 1,
+        "valid_values": "As defined in <a href='demographics.html'>hispanic in the Demographics specification.</a>"
+      }
+    ],
+    "primary_key": "provider",
+    "comments": [
+    {
+      "title": "Providers should be People",
+      "comment": "Sites should do their best to maintain a 1:1 correspondence between people and provider values. To the extent practical, people assigned > 1 provider value should be merged into a single record/value to be used in all VDW files with provider columns."
+    },
+    {
+      "title": "Only a single specialty variable is guaranteed to exist",
+      "comment": "In defiance of God and VDW convention, the numbered-suffix specialty vars may not exist at all at a given implementing site."
+    }]
+  },
+  "Utilization":
+  {
+    "name": "Utilization: Encounters",
+    "stdvar": "_vdw_utilization",
+    "description": "The ENCOUNTER table contains one record for each significant medical-related interaction between a patient and a medical provider, regardless of care setting or type of encounter. All known encounters should be included whether known through claims, through clinical systems, or a third source type. Inclusion, exclusions, classification, and uniqueness of an encounter is dependent on the type of service and care setting. For a precise description, please refer to the Utilization Implementation Guidelines on the private HCSRN website.",
+    "columns": [
+    {
+      "name": "MRN",
+      "definition": "Medical record number is the unique patient identifier within a site and should never leave the site",
+      "type": "char",
+      "length": "*",
+      "valid_values": "Unique to each patient at each site",
+      "implementation_guidelines": "Used to link people across files within a site. May or may not contain the official local indigenous person identifier (e.g., 'medical record number')."
+    },
+    {
+      "name": "adate",
+      "definition": "Encounter or admit date for inpatient or institutional stay.",
+      "type": "num",
+      "length": 4,
+      "valid_values": "Any SAS date",
+      "implementation_guidelines": "If encounter/admit date is unknown, then use the first date of a claim."
+    },
+    {
+      "name": "provider",
+      "definition": "Identifies the provider most responsible for the encounter.",
+      "type": "char",
+      "length": "*",
+      "valid_values": "Values link as a foreign key to <a href='providers.html'>Provider.provider</a>.",
+      "implementation_guidelines": "Usually a physician, nurse practitioner, physician assistant, optometrist, etc."
+    },
+    {
+      "name": "facility_code",
+      "definition": "A code indiciating the facility, hospital, or clinic in which the encounter occurred.",
+      "type": "char",
+      "length": "*",
+      "valid_values": "Values link as a foreign key to <a href='facility.html'>Facility.facility_code</a>."
+    },
+    {
+      "name": "enctype",
+      "definition": "The type of encounter",
+      "type": "char",
+      "length": 2,
+      "valid_values": [
+      {
+        "value": "IP",
+        "meaning": "Acute inpatient hospital stay including inpatient stays, same-day hospital discharges, hospital transfers when patient was admitted into hospital, acute inpatient pysch, and detox stays. [SUB = AI]"
+      },
+      {
+        "value": "ED",
+        "meaning": "Emergency department excluding urgent care [SUB = HA, OC]"
+      },
+      {
+        "value": "AV",
+        "meaning": "Ambulatory visit including outpatient clinics, same-day surgeries, observation beds, urgent care visits, and same-day ambulatory hospital encounters. Excludes emergency department. [SUB = OC, OB, SD, HA, UC, RH, DI, OT]"
+      },
+      {
+        "value": "TE",
+        "meaning": "Telephone encounter [SUB = OT, HH]"
+      },
+      {
+        "value": "EM",
+        "meaning": "E-mail including secure messaging [SUB = OT, HH]"
+      },
+      {
+        "value": "IS",
+        "meaning": "Non-acute institutional stays including hospice, SNF, rehab, nursing home, residential, overnight non-hospital dialysis and other non-hospital stays [SUB = HS, SN, NH, RH, DI, OT]"
+      },
+      {
+        "value": "OE",
+        "meaning": "Other Encounters:  Non-overnight hospice visits, home health visits, SNF visits, or other visits that do not occur in a typical ambulatory clinic or hospital setting.  This encounter type can include individual professional services or provider rounding visits for inpatient or institutional stays where no facility claim could be identified in which to merge these visits.    [Encounter_subtype=HS, HH, SN, RH, DI, OT, AI, NH]"
+      },
+      {
+        "value": "LO",
+        "meaning": "A lab only encounter that cannot be matched to another encounter [SUB = OC, OT]"
+      },
+      {
+        "value": "RO",
+        "meaning": "A radiology only encounter that cannot be matched to another encounter [SUB = OC, OT]"
+      }],
+      "implementation_guidelines": "Only certain combinations of enctype and encounter_subtype values are permitted--see the bracketed lists of subtypes permitted with each enctype (and vice-versa).<p>Implementers should include as many of these types of encounters as are available in indigenous data. Users should not assume that all encounter types are available at all implementing sites.</p>"
+    },
+    {
+      "name": "encounter_subtype",
+      "definition": "Further specification of the type of encounter. Valid associated ENCTYPE values are in brackets.",
+      "type": "char",
+      "length": 2,
+      "valid_values": [
+      {
+        "value": "AI",
+        "meaning": "Acute inpatient stay excluding observation bed [TYPE=IP, OE]"
+      },
+      {
+        "value": "OB",
+        "meaning": "Observation bed [TYPE = AV]"
+      },
+      {
+        "value": "OC",
+        "meaning": "Outpatient clinic visit [TYPE = AV, LO, RO, ED]"
+      },
+      {
+        "value": "SD",
+        "meaning": "Same-day surgery [TYPE = AV]"
+      },
+      {
+        "value": "UC",
+        "meaning": "Urgent care [TYPE = AV]"
+      },
+      {
+        "value": "HA",
+        "meaning": "Hospital ambulatory; outpatient care at hospital excluding same-day surgery and observation beds [TYPE = AV, ED]"
+      },
+      {
+        "value": "HS",
+        "meaning": "Hospice [TYPE = IS, OE]"
+      },
+      {
+        "value": "HH",
+        "meaning": "Home health [TYPE = OE, TE, EM]"
+      },
+      {
+        "value": "SN",
+        "meaning": "Skilled nursing facility [TYPE = IS, OE]"
+      },
+      {
+        "value": "NH",
+        "meaning": "Nursing home including intermediate care facilities [TYPE = IS, OE]"
+      },
+      {
+        "value": "RH",
+        "meaning": "Rehab [TYPE = IS, AV, OE]"
+      },
+      {
+        "value": "DI",
+        "meaning": "Dialysis [TYPE = IS, AV, OE]"
+      },
+      {
+        "value": "OT",
+        "meaning": "Other non-hospital [TYPE = IS, OE, TE, EM AV, LO, RO]"
+      }],
+      "implementation_guidelines": "Only certain combinations of enctype and encounter_subtype values are permitted--see the bracketed lists of types permitted with each subtype (and vice-versa)."
+    },
+    {
+      "name": "enc_id",
+      "definition": "An arbitrary, static, unique encounter identifier.",
+      "type": "char",
+      "length": "*",
+      "valid_values": "Any non-null value, so long as they uniquely identify an encounter.",
+      "implementation_guidelines": "<p>Should not be changed across updates.</p><p>This is a surrogate key. The natural key is  mrn, provider, facility_code, adate, atime, enctype, and encounter_subtype.</p>"
+    },
+    {
+      "name": "atime",
+      "definition": "Start time of the encounter.",
+      "type": "num",
+      "length": 4,
+      "valid_values": "Any SAS time value, or null if unknown",
+      "implementation_guidelines": "<p>Use admission time for inpatient, emergency or institutional encounters. </p> <p>For other encounters (such as ambulatory visits), use check-in time if this field is populated, otherwise use appointment time.</p>"
+    },
+    {
+      "name": "ddate",
+      "definition": "Discharge date for inpatient and overnight encounters, or encounter end date if otherwise available in source data",
+      "type": "num",
+      "length": 4,
+      "valid_values": "Any SAS date value, or null if unknown/not applicable",
+      "implementation_guidelines": "Expected to be populated for inpatient and institutional stays.<p>If precise discharge date is unknown, use the date of the last claim for the encounter."
+    },
+    {
+      "name": "dtime",
+      "definition": "Discharge or end time of the encounter.",
+      "type": "num",
+      "length": 4,
+      "valid_values": "Any SAS time value, or null if unknown",
+      "implementation_guidelines": "<p>Use discharge time for inpatient, emergency or institutional encounters. </p> <p>For other encounters (such as ambulatory visits), use check-out time if this field is populated.</p>"
+    },
+    {
+      "name": "drg_value",
+      "definition": "The Diagnostic Related Group value. Used for hospital encounters.",
+      "type": "char",
+      "length": 3,
+      "valid_values": "Numeric codes as defined by <abbr title='Centers for Medicare and Medicaid'>CMS</abbr> or other relevant authority (determined by drg_version).",
+      "implementation_guidelines": "<p>Expected to be populated on inpatient [IP] and institutional stay [IS] encounters, but populate for all encounters when known.</p> <p>Use leading zeros for codes less than 100.</p>"
+    },
+    {
+      "name": "drg_version",
+      "definition": "Version of the value in drg_value.",
+      "type": "char",
+      "length": 1,
+      "valid_values": [
+      {
+        "value": "A",
+        "meaning": "CMS-DRG"
+      },
+      {
+        "value": "B",
+        "meaning": "MS-DRG"
+      },
+      {
+        "value": "C",
+        "meaning": "APR-DRG"
+      }],
+      "implementation_guidelines": "The admit-date border between the earlier CMS-DRG scheme and the subsequent MS-DRG scheme is 01-oct-2007."
+    },
+    {
+      "name": "admitting_source",
+      "definition": "The location from which the patient was admitted for events with admit.",
+      "type": "char",
+      "length": 2,
+      "valid_values": [
+      {
+        "value": "AV",
+        "meaning": "Ambulatory Visit"
+      },
+      {
+        "value": "ED",
+        "meaning": "Emergency Department"
+      },
+      {
+        "value": "AF",
+        "meaning": "Adult Foster Home"
+      },
+      {
+        "value": "AL",
+        "meaning": "Assisted Living Facility"
+      },
+      {
+        "value": "HH",
+        "meaning": "Home Health"
+      },
+      {
+        "value": "HS",
+        "meaning": "Hospice"
+      },
+      {
+        "value": "HO",
+        "meaning": "Home / Self Care"
+      },
+      {
+        "value": "IP",
+        "meaning": "Other Acute Inpatient Hospital"
+      },
+      {
+        "value": "NH",
+        "meaning": "Nursing Home (Includes ICF)"
+      },
+      {
+        "value": "OT",
+        "meaning": "Other"
+      },
+      {
+        "value": "RS",
+        "meaning": "Residential Facility"
+      },
+      {
+        "value": "RH",
+        "meaning": "Rehabilitation Facility"
+      },
+      {
+        "value": "SN",
+        "meaning": "Skilled Nursing Facility"
+      },
+      {
+        "value": "UN",
+        "meaning": "Unknown"
+      }]
+    },
+    {
+      "name": "discharge_status",
+      "definition": "The status of the patient at discharge for events with discharge.",
+      "type": "char",
+      "length": 2,
+      "valid_values": [
+      {
+        "value": "AF",
+        "meaning": "Adult Foster Home"
+      },
+      {
+        "value": "AL",
+        "meaning": "Assisted Living Facility"
+      },
+      {
+        "value": "AM",
+        "meaning": "Against Medical Advice"
+      },
+      {
+        "value": "AW",
+        "meaning": "Absent without leave"
+      },
+      {
+        "value": "EX",
+        "meaning": "Expired"
+      },
+      {
+        "value": "HH",
+        "meaning": "Home Health"
+      },
+      {
+        "value": "HS",
+        "meaning": "Hospice"
+      },
+      {
+        "value": "HO",
+        "meaning": "Home / Self Care"
+      },
+      {
+        "value": "IP",
+        "meaning": "Other Acute Inpatient Hospital"
+      },
+      {
+        "value": "NH",
+        "meaning": "Nursing Home (Includes ICF)"
+      },
+      {
+        "value": "OT",
+        "meaning": "Other"
+      },
+      {
+        "value": "RS",
+        "meaning": "Residential Facility"
+      },
+      {
+        "value": "RH",
+        "meaning": "Rehabilitation Facility"
+      },
+      {
+        "value": "SH",
+        "meaning": "Still In Hospital"
+      },
+      {
+        "value": "SN",
+        "meaning": "Skilled Nursing Facility"
+      },
+      {
+        "value": "UN",
+        "meaning": "Unknown"
+      }]
+    },
+    {
+      "name": "discharge_disposition",
+      "definition": "The disposition of the patient at discharge for events with discharge.",
+      "type": "char",
+      "length": 1,
+      "valid_values": [
+      {
+        "value": "A",
+        "meaning": "Alive"
+      },
+      {
+        "value": "E",
+        "meaning": "Expired"
+      },
+      {
+        "value": "U",
+        "meaning": "Unknown"
+      }]
+    },
+    {
+      "name": "dept",
+      "definition": "The department where the encounter took place",
+      "type": "char",
+      "length": 6,
+      "valid_values": "As given in <a href='appendix_a2_depts.html'>Appendix A2: Dept Values</a>",
+      "implementation_guidelines": "This is not necessarily the specialty of the clinician providing services.<p>If department information is unavailable in the source data (as may happen in claims data), specify as 'UNKNWN'.</p><p>See New 6 Character DEPARTMENT values, Appendix A2</p>"
+    },
+    {
+      "name": "source_data",
+      "definition": "Classification of the database that was used to create this record.",
+      "type": "char",
+      "length": 1,
+      "valid_values": [
+      {
+        "value": "E",
+        "meaning": "Your site's EHR (Electronic Health Record) operated by your health care organization. Excludes claims and billing data. "
+      },
+      {
+        "value": "B",
+        "meaning": "Billing data--for services performed by your organization and captured in your org's EHR, but formatted for billing an outside insurer. These are sometimes referred to as 'internal' or 'outgoing' claims, or transaction data. "
+      },
+      {
+        "value": "C",
+        "meaning": "Claims data--for services performed outside of your health care organization, presented to your organization for payment as the patient's insurer."
+      },
+      {
+        "value": "L",
+        "meaning": "Local data source but unrelated to your site's EHR . Often Includes pre-EHR systems prior to EHR implementation such as appointment management systems."
+      },
+      {
+        "value": "M",
+        "meaning": "Multiple sources--the encounter is an amalgam of data from different sources (e.g., inpatient encounters with data from claims and EHR rounding)"
+      },
+      {
+        "value": "O",
+        "meaning": "Other. Not from the sources listed above."
+      },
+      {
+        "value": "U",
+        "meaning": "Unknown"
+      }],
+      "implementation_guidelines": "Category 'E' includes:<ul><li>Direct extract from your site's EHR (or associated reporting database).</li><li>A secondary database that houses your site's EHR data (no code changes for billing)</li><li>Data for services captured in other local systems (such as a separate lab or radiology system) and interfaced into your site's EHR.</li></ul>"
+    },
+    {
+
+      "name": "electronic_chart_review",
+      "definition": "Can this encounter be chart reviewed electronically?",
+      "type": "char",
+      "length": 1,
+      "valid_values": [
+      {
+        "value": "Y",
+        "meaning": "Yes"
+      },
+      {
+        "value": "N",
+        "meaning": "No"
+      },
+      {
+        "value": "P",
+        "meaning": "Partially (part of the record can be reviewed electronically).  A couple of examples:<ul><li>If only a discharge summary is available for inpatient stays</li><li>if only rounding data is available for inpatient stays</li></ul>"
+      },
+      {
+        "value": "U",
+        "meaning": "Unknown"
+      }]
+    }],
+    "primary_key": "enc_id",
+    "comments": [
+    {
+      "title": "What is an encounter?",
+      "comment": "In general, the intention of the encounter file is to describe all significant interactions between patients and medical providers. It should include such things as inpatient stays, emergency department visits,  other outpatient hospital services (e.g. same day surgeries), ambulatory visits, home health encounters, and non-hospital residential stays including skilled nursing facility, rehab, nursing home, overnight hospice facility, and overnight dialysis facility."
+    },
+    {
+      "title": "Uniquely Identifying an Encounter",
+      "comment": "A single inpatient stay, non-acute institutional stay (such as SNF, Rehab, Nursing Home, overnight Hospice or Dialysis stay) or emergency visit has 1 record in the encounter file.  For ambulatory visit, telephone, e-mail, lab only, radiology only and 'other' encounters, a unique encounter record is defined as each patient and provider medical contact documented in the source data (exclude scheduling appointments and other administrative tasks). A unique combination of the following variables is an encounter:  MRN, adate, enctype, encounter_subtype, provider, facility_code, and atime (if available)."
+    },
+    {
+      "title": "What types of encounters should be included?",
+      "comment": "See the definition of the variables EncType and Encounter_Subtype for the full list of the types of encounters that should be included.  Questions about whether a particular type of encounter should be included and how it should be characterized should be directed to the VDW Utilization Workgroup."
+    },
+    {
+      "title": "Members only?",
+      "comment": "Data on all services provided by the health plan, whether or not they were provided to a member (enrollee) of the plan should be included.  (This means that this file will frequently need to be checked against Enrollment in order to identify study populations-users should not assume that people found in the Utilization tables are members of the health plan, or that anything in particular is known about them.)"
+    },
+    {
+      "title": "Internally provided services only?",
+      "comment": "All available encounters should be included, even those taking place at external providers (in other words, claims data should be included if that is the only source you have for a given encounter).  Sites with known data 'blind spots' (e.g., hospice care is subcontracted out on a capitated basis, and no claims are submitted) should document them on their Utilization implementation page on the CRN Portal."
+    }]
+  },
+  "Diagnoses":
+  {
+    "name": "Utilization: Diagnoses",
+    "stdvar": "_vdw_dx",
+    "description": "The DIAGNOSIS table contains all recorded diagnoses associated with the encounters indicated in the ENCOUNTERS table with the exception of admitting diagnoses for inpatient stays.",
+    "columns": [
+    {
+      "name": "enc_id",
+      "definition": "An arbitrary, static, unique encounter identifier.",
+      "type": "char",
+      "length": "*",
+      "valid_values": "Foreign key to <a href = 'utilization.html'>utilization.enc_id</a>"
+    },
+    {
+      "name": "MRN",
+      "definition": "Medical record number is the unique patient identifier within a site and should never leave the site",
+      "type": "char",
+      "length": "*",
+      "valid_values": "Must match value on corresponding record in <a href='utilization.html'>utilization</a>.",
+      "implementation_guidelines": "This variable's redundancy is to improve querying performance."
+    },
+    {
+      "name": "adate",
+      "definition": "Encounter date.",
+      "type": "num",
+      "length": 4,
+      "valid_values": "Must match value on corresponding record in <a href='utilization.html'>utilization</a>.",
+      "implementation_guidelines": "This variable's redundancy is to improve querying performance."
+    },
+    {
+      "name": "provider",
+      "definition": "Identifies the provider most responsible for the encounter.",
+      "type": "char",
+      "length": "*",
+      "valid_values": "Must match value on corresponding record in <a href='utilization.html'>utilization</a>.",
+      "implementation_guidelines": "This variable's redundancy is to improve querying performance."
+    },
+    {
+      "name": "enctype",
+      "definition": "Type of encounter at which this diagnosis was made.",
+      "type": "char",
+      "length": 2,
+      "valid_values": "Must match value on corresponding record in <a href='utilization.html'>utilization</a>.",
+      "implementation_guidelines": "This variable's redundancy is to improve querying performance."
+    },
+    {
+      "name": "diagprovider",
+      "definition": "Identifies the provider that made the diagnosis.",
+      "type": "char",
+      "length": "*",
+      "valid_values": "Values link as a foreign key to <a href='providers.html'>Provider.provider</a>.",
+      "implementation_guidelines": "If unknown, set the value equal to the PROVIDER variable."
+    },
+    {
+      "name": "dx",
+      "definition": "The diagnosis code",
+      "type": "char",
+      "length": "*",
+      "valid_values": "Any valid value per the scheme named in dx_codetype below. Cannot be null.",
+      "implementation_guidelines": "Any alpha characters should be converted to UPPERCASE."
+    },
+    {
+      "name": "dx_codetype",
+      "definition": "The coding set used in the DX variable for this record.",
+      "type": "char",
+      "length": 2,
+      "valid_values": [
+      {
+        "value": "07",
+        "meaning": "ICD-7/7-CM"
+      },
+      {
+        "value": "08",
+        "meaning": "ICD-8/8-CM"
+      },
+      {
+        "value": "09",
+        "meaning": "ICD-9/9-CM"
+      },
+      {
+        "value": "10",
+        "meaning": "ICD-10/10-CM"
+      },
+      {
+        "value": "11",
+        "meaning": "ICD-11/11-CM"
+      },
+      {
+        "value": "OT",
+        "meaning": "Other"
+      }]
+    },
+    {
+      "name": "origdx",
+      "definition": "The diagnosis code as reported in source data without standardization or cleaning.",
+      "type": "char",
+      "length": "*",
+      "valid_values": "Any",
+      "implementation_guidelines": "May include nonstandard prefixes/suffixes that signify site-specific refinements on the standard code."
+    },
+    {
+      "name": "principal_dx",
+      "definition": "For hospital admissions, whether this diagnosis is the principal discharge diagnosis of the encounter. The principal diagnosis indicates the main reason why the patient was admitted to the hospital for care and the value on which a DRG is assigned.",
+      "type": "char",
+      "length": 1,
+      "valid_values": [
+      {
+        "value": "P",
+        "meaning": "Principal diagnosis"
+      },
+      {
+        "value": "N",
+        "meaning": "Not principal diagnosis"
+      },
+      {
+        "value": "X",
+        "meaning": "Unknown or not classifiable"
+      }],
+      "implementation_guidelines": "<p>Assigned after discharge after review by the medical record department, the principal diagnosis is main reason why the patient was admitted to the hospital for care.  This is the diagnosis on which the DRG is based.  Note that the principal diagnosis is very different from the admitting diagnosis which is assigned at the beginning of the stay.  For example, if a patient was admitted to a hospital with an admitting diagnosis of chest pain which was later diagnosed as a heart attack during the stay, the principal diagnosis would be heart attack. </p><p>Specify principal diagnosis as defined by the site’s institutional source data.   It is expected that there should be one and only one principal diagnosis per hospitalization.  For claims systems, the principal diagnosis may be found in the UB facility bill (field number 67 in UB 92 and UB 04 or '2300 HI01-2' on the electronic form) which should be the first diagnosis code listed.  If there are multiple UB facility bills for a stay, identify the principal diagnosis from the final/last facility bill.  If there are multiple final bills on the last date, use the one with the longest LOS.  While the value 'P' is expected to only be specified for inpatient and institutional stays, it is allowed for other encounter types if it is clearly identified in the source data.  However in most typical cases for other encounters, the principal_dx should be set to 'N'.   If the source data does not identify principal diagnosis (or not principal) for specific inpatient and institutional stays, then set Principal_dx to 'X' for all diagnoses.</p>"
+    },
+    {
+      "name": "primary_dx",
+      "definition": "Whether this diagnosis is the primary diagnosis of the encounter. The primary diagnosis is the most serious or resource intensive diagnosis and is the primary reason for the procedures being rendered.",
+      "type": "char",
+      "length": 1,
+      "valid_values": [
+      {
+        "value": "P",
+        "meaning": "Primary diagnosis"
+      },
+      {
+        "value": "S",
+        "meaning": "Secondary diagnosis"
+      },
+      {
+        "value": "X",
+        "meaning": "Unknown or not classifiable"
+      }],
+      "implementation_guidelines": "<p>Primary diagnosis is the illness or injury that was the most serious/severe/life-threatening and/or resource intensive.  From a claims perspective, it is the main reason for a provider's services being rendered (and billed/paid for).  Multiple primary diagnoses are allowed if the final/last professional claim can't be determined using the criteria above or if the primary diagnosis was a local combination code that has to be put into multiple records to have values within a standard coding system.</p><p>Specify primary diagnosis as defined by the site's institutional source data. For an outpatient encounter, it is expected that there should be one and only one primary diagnosis. For an inpatient stay, there can be multiple primary diagnoses, one for each provider claim during the stay. A provider may have multiple claims during a stay, each with a primary diagnosis. If multiple bills were submitted for a claim, choose the final/last professional bill. For claims systems, the primary diagnosis may be found in the HCFA professional bill (field number 21.1 in the HCFA 1500 or '2400 SV107-1' in the electronic form) which is the first diagnosis code listed. The other diagnoses on this bill should be identified as 'S' (Secondary Dx). The values 'P' (Primary Dx) and 'S' (Secondary Dx) should only be specified for encounters where there's a clearly defined primary diagnosis in the source data. Thus, if the source data does not identify primary or secondary diagnoses for a specific encounter, then set all diagnoses for that encounter to 'X' (Not Classifiable). If all diagnoses for an encounter are reported as secondary in the source data, then set primary_dx='S' (Secondary DX).</p><p>Multiple primary diagnoses are allowed if the final/last professional claim can't be determined using the criteria above or if the primary diagnosis was a local combination code that has to be put into multiple records to have values within a standard coding system.</p>"
+    },
+    {
+      "name": "source_data_dx",
+      "definition": "Classification of the database that was used to create this record.",
+      "type": "char",
+      "length": 1,
+      "valid_values": [
+      {
+        "value": "E",
+        "meaning": "Your site's EHR (Electronic Health Record) operated by your health care organization. Excludes claims and billing data. "
+      },
+      {
+        "value": "B",
+        "meaning": "Billing data--for services performed by your organization and captured in your org's EHR, but formatted for billing an outside insurer. These are sometimes referred to as 'internal' or 'outgoing' claims, or transaction data. "
+      },
+      {
+        "value": "C",
+        "meaning": "Claims data--for services performed outside of your health care organization, presented to your organization for payment as the patient's insurer."
+      },
+      {
+        "value": "L",
+        "meaning": "Local data source but unrelated to your site's EHR . Often Includes pre-EHR systems prior to EHR implementation such as appointment management systems."
+      },
+      {
+        "value": "M",
+        "meaning": "Multiple sources--the encounter is an amalgam of data from different sources (e.g., inpatient encounters with data from claims and EHR rounding)"
+      },
+      {
+        "value": "O",
+        "meaning": "Other. Not from the sources listed above."
+      },
+      {
+        "value": "U",
+        "meaning": "Unknown"
+      }],
+      "implementation_guidelines": "<p>Need <em>not</em> match the corresponding value in <a href='utilization.html'>utilization.source_data</a>.</p>Category 'E' includes:<ul><li>Direct extract from your site's EHR (or associated reporting database).</li><li>A secondary database that houses your site's EHR data (no code changes for billing)</li><li>Data for services captured in other local systems (such as a separate lab or radiology system) and interfaced into your site's EHR.</li></ul>"
+    }],
+    "primary_key": "enc_id + dx + origdx + diagprovider + dx_codetype",
+    "comments": [
+    {
+      "title": "DO include",
+      "comment": "Diagnoses from professional and inpatient rounding services."
+    },
+    {
+      "title": "Do NOT include",
+      "comment": "Admitting diagnoses for inpatient stays, or diagnoses from <abbr title='Electronic Health Record'>EHR</abbr> Problem Lists."
+    }]
+  },
+  "Procedures":
+  {
+    "name": "Utilization: Procedures",
+    "stdvar": "_vdw_px",
+    "description": "The PROCEDURE table contains all recorded procedures that were actually performed associated with the encounters indicated in the ENCOUNTERS table.",
+    "columns": [
+      {
+        "name": "enc_id",
+        "definition": "An arbitrary, static, unique encounter identifier.",
+        "type": "char",
+        "valid_values": "Foreign key to <a href = 'utilization.html'>utilization.enc_id</a>"
+      },
+      {
+        "name": "MRN",
+        "definition": "Medical record number is the unique patient identifier within a site and should never leave the site",
+        "type": "char",
+        "valid_values": "Must match value on corresponding record in <a href='utilization.html'>utilization</a>.",
+        "implementation_guidelines": "This variable's redundancy is to improve querying performance."
+      },
+      {
+        "name": "adate",
+        "definition": "Encounter date.",
+        "type": "num",
+        "length": 4,
+        "valid_values": "Must match value on corresponding record in <a href='utilization.html'>utilization</a>.",
+        "implementation_guidelines": "This variable's redundancy is to improve querying performance."
+      },
+      {
+        "name": "procdate",
+        "definition": "The actual date when the procedure was performed.",
+        "type": "num",
+        "length": 4,
+        "valid_values": "Any SAS date, or null",
+        "implementation_guidelines": "Unknown values should be coded as missing/null."
+      },
+      {
+        "name": "provider",
+        "definition": "Identifies the provider most responsible for the encounter.",
+        "type": "char",
+        "valid_values": "Must match value on corresponding record in <a href='utilization.html'>utilization</a>.",
+        "implementation_guidelines": "This variable's redundancy is to improve querying performance."
+      },
+      {
+        "name": "enctype",
+        "definition": "Type of encounter at which this diagnosis was made.",
+        "type": "char",
+        "length": 2,
+        "valid_values": "Must match value on corresponding record in <a href='utilization.html'>utilization</a>.",
+        "implementation_guidelines": "This variable's redundancy is to improve querying performance."
+      },
+      {
+        "name": "performingprovider",
+        "definition": "Identifies the provider that performed the procedure.",
+        "type": "char",
+        "valid_values": "Values link as a foreign key to <a href='providers.html'>Provider.provider</a>.",
+        "implementation_guidelines": "If unknown, set the value equal to the PROVIDER variable."
+      },
+      {
+        "name": "px",
+        "definition": "Code identifying the procedure that was performed.",
+        "type": "char",
+        "valid_values": "Any valid value per the scheme named in px_codetype below. Cannot be null.",
+        "implementation_guidelines": "<p>Convert local codes to standard codes if possible.</p>Any alpha characters should be converted to UPPERCASE.<p>Revenue codes may appear as both a 3-digit value and an equivalent 4-digit value with a leading zero, for example, both '123' and '0123' may appear in the data. Users should include both variants in filter/query conditions.</p>"
+      },
+      {
+        "name": "px_codetype",
+        "definition": "The coding set used in the PX variable for this record.",
+        "type": "char",
+        "length": 2,
+        "valid_values": [
+        {
+          "value": "09",
+          "meaning": "ICD-9-CM"
+        },
+        {
+          "value": "10",
+          "meaning": "ICD-10-CM"
+        },
+        {
+          "value": "11",
+          "meaning": "ICD-11-CM"
+        },
+        {
+          "value": "C4",
+          "meaning": "CPT-4"
+        },
+        {
+          "value": "H4",
+          "meaning": "HCPCS-4"
+        },
+        {
+          "value": "RV",
+          "meaning": "Revenue code"
+        },
+        {
+          "value": "LO",
+          "meaning": "Local homegrown"
+        },
+        {
+          "value": "OT",
+          "meaning": "Other"
+        }]
+      },
+      {
+        "name": "origpx",
+        "definition": "The procedure code as reported in source data without standardization or cleaning.",
+        "type": "char",
+        "valid_values": "Any",
+        "implementation_guidelines": "EMR Systems typically have unique procedure identifiers that can be linked to either ICD-9-CM or ICD-10-CM codes.  Sites should consider populating the VDW ORIGPX variable with this unique procedure identifier from their EMR source system that could allow projects to convert codes from that source into one coding system (either ICD-9-CM or ICD-10-CM)."
+      },
+      {
+        "name": "pxcnt",
+        "definition": "Number of times this procedure was performed on this procdate, by this provider, on this patient, etc.",
+        "type": "num",
+        "length": 4,
+        "valid_values": "Any integer > 0",
+        "implementation_guidelines": "Should always be 1 unless the procedure was performed multiple times."
+      },
+
+      {
+        "name": "cptmod1",
+        "definition": "First modifier to a CPT or HCPCS procedure code used to communicate special circumstances related to the performance of a procedure.",
+        "type": "char",
+        "length": 2,
+        "valid_values": "Value set is set by the American Medical Association and proprietary"
+      },
+
+      {
+        "name": "cptmod2",
+        "definition": "Second modifier to a CPT or HCPCS procedure code used to communicate special circumstances related to the performance of a procedure.",
+        "type": "char",
+        "length": 2,
+        "valid_values": "Value set is set by the American Medical Association and proprietary"
+      },
+
+      {
+        "name": "cptmod3",
+        "definition": "Third modifier to a CPT or HCPCS procedure code used to communicate special circumstances related to the performance of a procedure.",
+        "type": "char",
+        "length": 2,
+        "valid_values": "Value set is set by the American Medical Association and proprietary"
+      },
+      {
+        "name": "source_data_px",
+        "definition": "Classification of the database that was used to create this record.",
+        "type": "char",
+        "length": 1,
+        "valid_values": [
+        {
+          "value": "E",
+          "meaning": "Your site's EHR (Electronic Health Record) operated by your health care organization. Excludes claims and billing data. "
+        },
+        {
+          "value": "B",
+          "meaning": "Billing data--for services performed by your organization and captured in your org's EHR, but formatted for billing an outside insurer. These are sometimes referred to as 'internal' or 'outgoing' claims, or transaction data. "
+        },
+        {
+          "value": "C",
+          "meaning": "Claims data--for services performed outside of your health care organization, presented to your organization for payment as the patient's insurer."
+        },
+        {
+          "value": "L",
+          "meaning": "Local data source but unrelated to your site's EHR . Often Includes pre-EHR systems prior to EHR implementation such as appointment management systems."
+        },
+        {
+          "value": "M",
+          "meaning": "Multiple sources--the encounter is an amalgam of data from different sources (e.g., inpatient encounters with data from claims and EHR rounding)"
+        },
+        {
+          "value": "O",
+          "meaning": "Other. Not from the sources listed above."
+        },
+        {
+          "value": "U",
+          "meaning": "Unknown"
+        }],
+        "implementation_guidelines": "<p>Need <em>not</em> match the corresponding value in <a href='utilization.html'>utilization.source_data</a>.</p>Category 'E' includes:<ul><li>Direct extract from your site's EHR (or associated reporting database).</li><li>A secondary database that houses your site's EHR data (no code changes for billing)</li><li>Data for services captured in other local systems (such as a separate lab or radiology system) and interfaced into your site's EHR.</li></ul>"
+      },
+      {
+
+        "name": "source_category_px",
+        "definition": "Source of the procedure information.",
+        "type": "char",
+        "length": 2,
+        "valid_values": [
+        {
+          "value": "OD",
+          "meaning": "Order (such as from your EHR's order table)"
+        },
+        {
+          "value": "BI",
+          "meaning": "Billing (billing data such as transaction tables and internal claims created from services inside the health care organization)"
+        },
+        {
+          "value": "CL",
+          "meaning": "Claim (external claims for services outside the health care organization)"
+        },
+        {
+          "value": "NI",
+          "meaning": "No information "
+        },
+        {
+          "value": "UN",
+          "meaning": "Unknown "
+        },
+        {
+          "value": "OT",
+          "meaning": "Other (including but not limited to your EHR's encounter table)"
+        }],
+        "implementation_guidelines": "<p>Definition and specs from from PCORnet. Use to populate the PX_SOURCE variable in the PCORnet procedure table.</p> Order and billing pertain to internal healthcare processes and data sources. Claim pertains to data from the bill fulfillment, generally data sources held by insurers and other health plans. "
+
+      }
+    ],
+    "primary_key": "enc_id + procdate + performingprovider + origpx + px + px_codetype + cptmod1-3",
+    "comments": [
+    {
+      "title": "Include",
+      "comment": "<p>Include all performed procedures from all settings including lab, radiology and immunization procedure codes.</p> <p>Include procedures from professional and inpatient rounding services (outpatient providers who visit their patients in the hospital) in inpatient encounters.  Identify the professional/inpatient rounding provider in the 'performingprovider' variable and the procedure date in the 'procdate' variable.</p> <p>Include denied claims if you consider the utilization to be valid.</p><p>Require that the procedure file contain each type of procedure code when available: CPT, HCPCS, ICD9, Revenue Code.</p>"
+    },
+    {
+      "title": "Exclude",
+      "comment": "Exclude procedures that were ordered but not performed."
+    },
+    {
+      "title": "Orphans Are Permitted",
+      "comment": "Lab, radiology, immunization and other procedure codes may exist without a linked record in the encounter file."
+    }]
+  },
+  "OutpatientFills":
+  {
+    "name": "Outpatient Fills",
+    "description": "The PHARMACY file contains data on medications dispensed in the outpatient setting.  Dispensings in the inpatient setting are not included.",
+    "stdvar": "_vdw_rx",
+    "columns": [
+    {
+      "name": "MRN",
+      "definition": "Medical record number is the unique patient identifier within a site and should never leave the site",
+      "type": "char",
+      "length": "*",
+      "valid_values": "Unique to each patient at each site",
+      "implementation_guidelines": "Used to link people across files within a site. May or may not contain the official local indigenous person identifier (e.g., 'medical record number')."
+    },
+    {
+      "name": "rxdate",
+      "definition": "Date that medication was dispensed",
+      "type": "num",
+      "length": 4,
+      "valid_values": "Any SAS date",
+      "implementation_guidelines": "Dispensed = Received by Member/Patient"
+    },
+    {
+      "name": "ndc",
+      "definition": "The identifier of a drug (or pharmacy product). ",
+      "type": "char",
+      "length": 11,
+      "valid_values": "Any value, but optimally a <a href='https://www.accessdata.fda.gov/scripts/cder/ndc/'>standard (US) National Drug Code</a>.<p>Foreign key into the <a href='ndcs.html'>EverNDC</a> lookup table.</p>",
+      "implementation_guidelines": "<p>If available, this should be the National Drug Code in the HIPAA/CMS/NCPDP standard 5-4-2 configuration without dashes.</p><p>If a true NDC is not available, a locally defined unique identifier with up to 11 characters can be used.</p>"
+    },
+    {
+      "name": "rxsup",
+      "definition": "Number of days of medication supplied",
+      "type": "num",
+      "length": 8,
+      "valid_values": "Integers > 0",
+      "implementation_guidelines": "Either RXSUP or RXAMT must be a positive value."
+    },
+    {
+      "name": "rxamt",
+      "definition": "Number of units (e.g. pills, tablets) dispensed",
+      "type": "num",
+      "length": 8,
+      "valid_values": "Integers > 0",
+      "implementation_guidelines": "Either RXSUP or RXAMT must be a positive value."
+    },
+    {
+      "name": "rxmd",
+      "definition": "The provider that prescribed this medication.",
+      "type": "char",
+      "length": "*",
+      "valid_values": "Values link as a foreign key to <a href='providers.html'>Provider.provider</a>."
+    }],
+    "primary_key": "mrn + rxdate + ndc + rxmd (SEE COMMENTS)",
+    "comments": [
+    {
+      "title": "Dealing with duplicates",
+      "comment": "<p>Primary key is under review. Rolling up data is not required by the work group at this time.</p><del>Rows are unique on the combination of patient, NDC, dispense date, and prescribing provider. When multiple dispensings occur for the same patient for the same drug on the same day from the same provider, the amount dispensed and days supplied of the drug should be summed.</del>"
+    },
+    {
+      "title": "Exclude",
+      "comment": "Exclude incomplete or unfilled medication orders."
+    },
+    {
+      "title": "Compound Drugs",
+      "comment": "Compound drugs may be represented differently across sites. If a drug of interest is a compound drug, users may want to check with individual sites on their handling of these dispensings."
+    }]
+  },
+  "EverNDC":
+  {
+    "name": "EverNDC",
+    "description": "The EVERNDC table is a lookup table containing all National Drug Codes (NDC) found in the <a href='outpatient_fills.html'>PHARMACY</a> table at the implementing site. That is, pharmacy dispensings occurring at <em>site A</em> will have at least one corresponding record in <em>site A</em>'s EVERNDC table but not necessarily any records in <em>site B</em>'s EVERNDC table.",
+    "stdvar": "_vdw_everndc",
+    "columns": [
+    {
+      "name": "ndc",
+      "definition": "The identifier of a drug (or pharmacy product). ",
+      "type": "char",
+      "length": 11,
+      "valid_values": "Any value that may be found in the <a href='outpatient_fills.html'>outpatient fills</a> file at the implementing site."
+    },
+    {
+      "name": "ndc_fda",
+      "definition": "The original FDA National Drug Code in 4-4-2, 5-3-2, or 5-4-1 format including dashes",
+      "type": "char",
+      "length": 12,
+      "valid_values": "Any value consisting of numbers and dashes.",
+      "implementation_guidelines": "Populate only if available in source data; generally this value cannot be derived from the char(11) NDC format."
+    },
+    {
+      "name": "generic",
+      "definition": "The generic name of the drug",
+      "type": "char",
+      "length": 105,
+      "valid_values": "Any",
+      "implementation_guidelines": "Convert to all upper case. Remove form, strength, and all other labels."
+    },
+    {
+      "name": "brand",
+      "definition": "The brand name of the drug",
+      "type": "char",
+      "length": 105,
+      "valid_values": "Any",
+      "implementation_guidelines": "Convert to all upper case. Remove form, strength, and all other labels."
+    },
+    {
+      "name": "AHFS1 - AHFS7",
+      "definition": "The American Society of Health-System Pharmacists drug classification code. Store up to seven different AHFS codes across these variables",
+      "type": "char",
+      "length": 8,
+      "valid_values": "As determined by the AHFS, or null",
+      "implementation_guidelines": "<p>This is <a href='https://www.ahfsdruginformation.com'>a proprietary classification scheme</a>, which not every implementing site has licensed. Users should not assume these columns will be populated at every site or for every row.</p><p>If code is in the 6 digit format, pad with two zeros at the end of the code.</p><p>The seven AHFS fields do not imply a hierarchy, include all available AHFS codes assigned to each NDC in the sequence you prefer.</p>"
+    },
+    {
+      "name": "GPI",
+      "definition": "The Generic Product Identifier drug classification code",
+      "type": "char",
+      "length": 14,
+      "valid_values": "As determined by Medi-Span",
+      "implementation_guidelines": "<p>This is <a href='https://www.wolterskluwer.com'>a proprietary classification scheme</a>, which not every implementing site has licensed. Users should not assume this column will be populated at every site or for every row.</p><p>Not to be confused with the <em>generic price indicator</em> variable available from vendor <abbr title='First Data Bank'>FDB</abbr></p>"
+    },
+    {
+      "name": "unit_of_measure",
+      "definition": "The unit of measure as reported in source data without standardization or cleaning except for storing values in all upper case",
+      "type": "char",
+      "length": "*",
+      "valid_values": "Any",
+      "implementation_guidelines": "Example values are 2000, U/4ML, GM/15ML, %/5GM, -400 UNIT"
+    },
+    {
+      "name": "strength",
+      "definition": "The strength of the drug as reported in source data without standardization or cleaning except for storing values in all upper case",
+      "type": "char",
+      "length": "*",
+      "valid_values": "Any",
+      "implementation_guidelines": "Example values are 99.99%, 9G, 9MCG/0.3ML, 9000 UNIT"
+    },
+    {
+      "name": "dosage_form",
+      "definition": "The form of the drug as reported in source data without standardization or cleaning except for storing values in all upper case",
+      "type": "char",
+      "length": "*",
+      "valid_values": "Any",
+      "implementation_guidelines": "Example values are VIAL, VIAL PORT, WAFER, WAF, SOLUTION, SOLN SEQ, SPIRIT"
+    },
+    {
+      "name": "obsolete_dt",
+      "definition": "The date this combination of NDC + generic was made obsolete",
+      "type": "num",
+      "length": 4,
+      "valid_values": "Any SAS date, or null",
+      "implementation_guidelines": "Populate only if the NDC is later reused for a drug with a different generic name."
+    },
+    {
+      "name": "reinstated_dt",
+      "definition": "The date this NDC was re-issued/recycled, after being obsoleted",
+      "type": "num",
+      "length": 4,
+      "valid_values": "Any SAS date, or null",
+      "implementation_guidelines": "Populate only if the NDC is later reused for a drug with a different generic name."
+    },
+    {
+      "name": "ndc_site_specific_flag",
+      "definition": "Indicates whether an NDC is a site-specific, non-standard item.",
+      "type": "char",
+      "length": 1,
+      "valid_values": [
+      {
+        "value": "Y",
+        "meaning": "Yes"
+      },
+      {
+        "value": "N",
+        "meaning": "No"
+      },
+      {
+        "value": "U",
+        "meaning": "Unknown"
+      }],
+      "implementation_guidelines": "site-specific NDCs include but are not limited to compound drugs, stock items, repackaged drugs and study medications.  Some site specific NDCs are identifiable via a starting set of characters, such as 11111 or 99999, or a term."
+    }],
+    "primary_key": "ndc + generic",
+    "comments": [
+    {
+      "title": "Creating NDC lists for multi-site projects",
+      "comment": "<p>Creating lists of NDCs for multi-site projects is a <em>known hard problem</em>.</p><p>Because this file is explicitly defined as idiosyncratic to each implementing site (only NDCs to be found at that site are included) and because the various commercial sources of NDC catalogues are necessarily ignorant of custom NDCs in use at implementing sites (e.g. for compound drugs and custom repackages) there is no single site that should consider itself capable of developing a valid list for use at multiple sites.</p>For this reason, we recommend a two-step approach for compiling NDC lists.<p><ol><li>The lead analyst of a project can first write a distributed program to query the EverNDC tables across sites. They may use generic names, brand names, AHFS codes (if available), or GPI codes (if available) to identify the NDCs in use at other sites.</li><li>They can then collate the NDCs identified from all participating sites to compile a final list of NDCs for the study.</li></ol>"
+    },
+    {
+      "title": "Compound Drugs",
+      "comment": "Compound drugs are represented differently in the data across sites. If the drug you are looking for may be a compound drug, please check with individual sites to understand how they are handling these data."
+    }]
+  },
+  "LabResults":
+  {
+    "name": "Lab Results",
+    "stdvar": "_vdw_lab",
+    "description": "The LAB RESULTS table contains the results of laboratory tests performed on patients.",
+    "columns": [
+
+      {
+        "name": "MRN",
+        "definition": "Medical record number is the unique patient identifier within a site and should never leave the site",
+        "type": "char",
+        "valid_values": "Unique to each patient at each site",
+        "implementation_guidelines": "Used to link people across files within a site. May or may not contain the official local indigenous person identifier (e.g., 'medical record number')."
+      },
+      {
+        "name": "test_type",
+        "definition": "VDW-specific classification of laboratory results.",
+        "type": "char",
+        "length": 20,
+        "valid_values": "As defined in the <a href='blah'>excel spreadsheet</a> and <a href = 'bling'>matching SAS dataset</a> references, both maintained by the Lab Workgroup"
+      },
+      {
+        "name": "stat",
+        "definition": "Indicates the immediacy of the test.  The intent of this value is to determine whether the test was obtained as part of routine care or as an emergent/urgent diagnostic test.",
+        "type": "char",
+        "length": 1,
+        "valid_values": [
+        {
+          "value": "E",
+          "meaning": "Expedite"
+        },
+        {
+          "value": "S",
+          "meaning": "Stat"
+        },
+        {
+          "value": "R",
+          "meaning": "Routine"
+        },
+        {
+          "value": "U",
+          "meaning": "Unknown or missing"
+        }],
+        "implementation_guidelines": "The default value should be Routine unless the results for that test indicate Expedite or Stat.  If your site does not ever use Stat or Expedite terminology then the value is set to Unknown."
+      },
+      {
+        "name": "loinc",
+        "definition": "Logical Observation Identifiers Names and Codes (LOINC) is a universal coding system for laboratory tests and measurements developed by Regenstrief Institute.  ",
+        "type": "char",
+        "length": 10,
+        "implementation_guidelines": "Visit <a href='https://loinc.org/'>the LOINC website</a> to download the set of LOINC codes defined by Regenstrief.  <p>Not all LOINCs have been mapped to VDW test_types</p>."
+      },
+      {
+        "name": "pt_loc",
+        "definition": "Location of the patient when the lab specimen was obtained.",
+        "type": "char",
+        "length": 1,
+        "valid_values": [
+        {
+          "value": "I",
+          "meaning": "Inpatient"
+        },
+        {
+          "value": "O",
+          "meaning": "Outpatient"
+        },
+        {
+          "value": "E",
+          "meaning": "Emergency Department"
+        },
+        {
+          "value": "H",
+          "meaning": "Home"
+        },
+        {
+          "value": "U",
+          "meaning": "Unknown or missing"
+        }]
+      },
+      {
+        "name": "result_loc",
+        "definition": "Location where the result was completed. Particularly whether the lab was completed in a certified laboratory.",
+        "type": "char",
+        "length": 1,
+        "valid_values": [
+        {
+          "value": "L",
+          "meaning": "Lab"
+        },
+        {
+          "value": "P",
+          "meaning": "Point of care (e.g. home, provider office)"
+        }],
+        "implementation_guidelines": "Code nulls and unknowns as 'L'.  There are no missing values.<p>Result location is used to identify whether the test was completed in a laboratory (e.g., hospital lab, outpatient clinic lab, emergency department lab) or if the test was completed using a point of care device at a location other than a certified laboratory (e.g., anticoagulation clinic, newborn nursery, finger stick in provider office, home.)  The information may not be available at all sites.</p>"
+      },
+      {
+        "name": "specimen_id",
+        "definition": "Used to uniquely identify a collected specimen which may ultimately be used to obtain multiple lab results.  Specimen ID will be used to connect multiple records from the same blood sample.",
+        "type": "char",
+        "valid_values": "Any",
+        "implementation_guidelines": "A possible way to create Specimen_ID is by concatenating lab accession number and date. At most sites lab accession number is reused, thus concatenating the date will make a unique specimen ID for that test_type. Since date is PHI consider applying a hash. <code>md5(compress(AccessionNumber||SampleCollectionDt)) as Specimen_ID format=$hex32.</code>"
+      },
+      {
+        "name": "specimen_source",
+        "definition": "The source or method for collecting the specimen.",
+        "type": "char",
+        "length": 6,
+        "valid_values": [
+        {
+          "value": "BLOOD",
+          "meaning": "serum and/or plasma"
+        },
+        {
+          "value": "SERUM",
+          "meaning": "serum and/or plasma"
+        },
+        {
+          "value": "PLASMA",
+          "meaning": "serum and/or plasma"
+        },
+        {
+          "value": "SR_PLS",
+          "meaning": "serum and/or plasma"
+        },
+        {
+          "value": "PPP",
+          "meaning": "Platelet Poor Plasma"
+        },
+        {
+          "value": "CSF",
+          "meaning": "cerebral spinal fluid"
+        },
+        {
+          "value": "URINE",
+          "meaning": "Urine"
+        },
+        {
+          "value": "STOOL",
+          "meaning": "Stool"
+        },
+        {
+          "value": "NSWAB",
+          "meaning": "nasal swab (including nose) "
+        },
+        {
+          "value": "NWASH",
+          "meaning": "nasal wash"
+        },
+        {
+          "value": "NPH",
+          "meaning": "nasopharyngeal swab"
+        },
+        {
+          "value": "NPWASH",
+          "meaning": "nasopharyngeal wash"
+        },
+        {
+          "value": "THRT",
+          "meaning": "throat, oropharyngeal swab"
+        },
+        {
+          "value": "TR_ASP",
+          "meaning": "tracheal aspirate"
+        },
+        {
+          "value": "SLFSWB",
+          "meaning": "self-swab (similar to NSWAB but with ‘self’ designation)"
+        },
+        {
+          "value": "BAL",
+          "meaning": "bronchoalveolar lavage (BAL)"
+        },
+        {
+          "value": "BALBX",
+          "meaning": "BAL biopsy"
+        },
+        {
+          "value": "SALIVA",
+          "meaning": "Saliva"
+        },
+        {
+          "value": "SPUTUM",
+          "meaning": "Sputum"
+        },
+        {
+          "value": "OTHER",
+          "meaning": "Other"
+        },
+        {
+          "value": "NS",
+          "meaning": "not specified"
+        },
+        {
+          "value": "[Null]",
+          "meaning": "missing value"
+        }]
+      },
+      {
+        "name": "local_cd",
+        "definition": "The lab test type code as reported in source data without standardization or cleaning. This code indicates in the data source system which test was performed.",
+        "type": "char",
+        "valid_values": "Any",
+        "implementation_guidelines": "Unique to each site."
+      },
+      {
+        "name": "battery_cd",
+        "definition": "The battery code as reported in source data without standarization or cleaning. A battery consists of a grouping or series of tests performed and is sometimes referred to as a panel of tests.",
+        "type": "char",
+        "valid_values": "Any",
+        "implementation_guidelines": "Unique to each site."
+      },
+      {
+        "name": "px",
+        "definition": "?",
+        "valid_values": "As defined in procedures, or null.",
+        "implementation_guidelines": "Refer to the PX variable on the <a href='procedures.html'>Procedure table</a> for type and length."
+      },
+      {
+        "name": "px_codetype",
+        "definition": "Names the scheme of the code found in the px column.",
+        "valid_values": "As defined in procedures, or null.",
+        "implementation_guidelines": "Refer to the px_codetype variable on the <a href='procedures.html'>Procedure table</a> for type and length."
+      },
+      {
+        "name": "order_id",
+        "definition": "Uniquely identifies the order for this lab test.",
+        "type": "char",
+        "valid_values": "Any, or null",
+        "implementation_guidelines": "In the future, may link to a table of orders."
+      },
+      {
+        "name": "order_dt",
+        "definition": "Date that the lab test was ordered.",
+        "type": "num",
+        "length": 4,
+        "valid_values": "Any SAS date <= lab_dt",
+        "implementation_guidelines": "It is possible for the order date to be any date from months before the sample was taken (in the case of a recurring test to monitor a chronic condition or drug interaction) to the same day the sample was taken."
+      },
+      {
+        "name": "lab_dt",
+        "definition": "Date that the specimen was collected.",
+        "type": "num",
+        "valid_values": "Any SAS date",
+        "length": 4
+      },
+      {
+        "name": "lab_tm",
+        "definition": "Time that the specimen was collected.",
+        "type": "num",
+        "valid_values": "Any SAS time",
+        "length": 4
+      },
+      {
+        "name": "result_dt",
+        "definition": "Date that the test was resulted.",
+        "type": "num",
+        "length": 4,
+        "valid_values": "Any SAS date",
+        "implementation_guidelines": "This date could be the same day the specimen was collected or any date up to weeks later."
+      },
+      {
+        "name": "result_tm",
+        "definition": "Time that the specimen was resulted.",
+        "type": "num",
+        "length": 4,
+        "valid_values": "Any SAS time"
+      },
+      {
+        "name": "result_c",
+        "definition": "The result of the test stored in a character field.  This variable works in conjunction with the Modifier variable.",
+        "type": "char",
+        "length": 20,
+        "valid_values": "Any non-null",
+        "implementation_guidelines": "<ul><li>Symbols like >, <, >=, <= should be removed. </li><li>Numeric values stored in this variable should be stored with commas removed allowing the SAS default conversion to numeric to occur.  </li><li>Full ranges are to be placed in this field. Examples of full ranges: 3.4-7.5, 13000-18000. Note that commas and blanks should be removed from ranges and the numbers should be separated with a dash.</li>  <li>Comments or notes that are seen in addition to a result value should be recorded in the LAB NOTES table, not in this field.</li><li>The lab workgroup suggests placing 'SEE LAB NOTES TABLE' in the Result_C field when Result_C does not hold the test result but additional information can be found in the Lab Notes table.  Examples follow describing when this situation can arise.</li><li>Include information where the result has not been parsed out of a long string.  (This happened at one site when influenza test results were received from outside labs.  The time intensive work of writing code to parse the strings was not performed until the results were needed.)</li><li>Include long or vague results such as “Low risk for cardiovascular disease”.</li></ul>"
+      },
+      {
+        "name": "modifier",
+        "definition": "Modifies the value stored in the Result_C field.",
+        "type": "char",
+        "length": 2,
+        "valid_values": [
+        {
+          "value": "TX",
+          "meaning": "Text"
+        },
+        {
+          "value": "EQ",
+          "meaning": "Equal"
+        },
+        {
+          "value": "LT",
+          "meaning": "Less than"
+        },
+        {
+          "value": "LE",
+          "meaning": "Less than or equal to"
+        },
+        {
+          "value": "GT",
+          "meaning": "Greater than"
+        },
+        {
+          "value": "GE",
+          "meaning": "Greater than or equal to"
+        },
+        {
+          "value": "RA",
+          "meaning": "Range"
+        }],
+        "implementation_guidelines": "Any relational operators in the original source data value (e.g., <, >, or =) are reflected in the Modifier variable.  If the source data value is '<5' then the Result_C value is 5 and the Modifier is LT.  If the source data value is 'NEGATIVE' then the Result_C value is NEGATIVE and the Modifier is TX.  If the source data value is numeric (digits with or without decimal) and does not contain an operator, then the Modifier is EQ.  If the Result_C value is a range, as described in the cell above, then the Modifier is RA."
+      },
+      {
+        "name": "result_unit",
+        "definition": "The units in which the result is reported <strong>after basic standardizations have been applied</strong>.",
+        "type": "char",
+        "length": 11,
+        "valid_values": "Any",
+        "implementation_guidelines": "<p>Result unit after applying 1) the standardizations from the table supplied by the Laboratory workgroup and 2) any site specific corrections / standardizations not applicable to all sites.</p><p>At the least, the value should be uppercase and left justified.</p><p>Only recode equivalent units (e.g., ::example::). Do <strong>not</strong> convert/recode result_c, normal_low_c or normal_high_c in order to use a more favored unit.</p>"
+      },
+      {
+        "name": "result_unit_raw",
+        "definition": "The units in which the result is reported before basic standardizations are applied.",
+        "type": "char",
+        "length": 11,
+        "valid_values": "Any"
+      },
+      {
+        "name": "normal_low_c",
+        "definition": "The lowest value still considered normal for this test.   This variable works in conjunction with the Modifier_Low variable.",
+        "type": "char",
+        "length": 8,
+        "valid_values": "Any",
+        "implementation_guidelines": "Symbols like >, <, >=, <= should be removed. Numeric values stored in this variable should be stored to convert with the SAS 8. informat."
+      },
+      {
+        "name": "modifier_low",
+        "definition": "Modifies the value stored in the Normal_Low_C field.",
+        "type": "char",
+        "length": 2,
+        "valid_values": "As defined above for the <code>modifier</code> column, or null.",
+        "implementation_guidelines": "<p>Any relational operators in the original source data value (e.g., <, >, or =) are reflected in the Modifier_Low variable.</p>For numeric results one of the following needs to be true:<ol><li>Both modifier_low and modifier_high contain EQ  e.g. (normal values fall in the range 3-10)</li><li>modifier_low contains GT or GE and modifier_high contains blank  e.g. (normal values are >3 with no upper boundary)</li><li>modifier_high contains LT or LE and modifier_low contains blank  e.g. (normal values are <=10 with no lower boundary)</li></ol><p>Do not place 0 in the lower boundary unless it comes from the source data.</p>"
+      },
+      {
+        "name": "normal_high_c",
+        "definition": "The highest value still considered normal for this test.   This variable works in conjunction with the Modifer_High variable.",
+        "type": "char",
+        "length": 8,
+        "valid_values": "Any",
+        "implementation_guidelines": "Symbols like >, <, >=, <= should be removed. Numeric values stored in this variable should be stored to convert with the SAS 8. informat."
+      },
+      {
+        "name": "modifier_high",
+        "definition": "Modifies the value stored in the Normal_High_C field.",
+        "type": "char",
+        "length": 2,
+        "valid_values": "As defined above for the <code>modifier</code> column, or null.",
+        "implementation_guidelines": "See guidelines for <code>modifier_low</code> above."
+      },
+      {
+        "name": "abn_ind",
+        "definition": "Indicates whether the test result is abnormal.",
+        "type": "char",
+        "length": 2,
+        "valid_values": [
+        {
+          "value": "AB",
+          "meaning": "Abnormal"
+        },
+        {
+          "value": "C",
+          "meaning": "Critical"
+        },
+        {
+          "value": "AH",
+          "meaning": "Abnormal high"
+        },
+        {
+          "value": "CH",
+          "meaning": "Critical high"
+        },
+        {
+          "value": "AL",
+          "meaning": "Abnormal low"
+        },
+        {
+          "value": "CL",
+          "meaning": "Critical low"
+        },
+        {
+          "value": "IN",
+          "meaning": "Inconclusive"
+        },
+        {
+          "value": "NL",
+          "meaning": "Normal"
+        },
+        {
+          "value": "UK",
+          "meaning": "Unknown or missing"
+        }],
+        "implementation_guidelines": "If the abnormal indicator is missing do not impute a value. Missing abnormal indicator values should be set to UK."
+      },
+      {
+        "name": "order_prov",
+        "definition": "Identifies the provider that ordered the lab test.",
+        "valid_values": "Foreign key into <a href='providers.html'>providers.provider</a>"
+      },
+      {
+        "name": "ord_dept",
+        "definition": "The department or specialty in which the order took place.",
+        "type": "char",
+        "length": 6,
+        "valid_values": "As given in <a href='appendix_a2_depts.html'>Appendix A2: Dept Values</a>"
+      },
+      {
+        "name": "facility_code",
+        "definition": "A code indiciating the facility, hospital, or clinic in which the lab order originated.",
+        "valid_values": "Foreign key into <a href='facilities.html'>facilities</a>"
+
+      },
+      {
+        "name": "row_id",
+        "definition": "A site specific identifer that enables linkage between the LAB NOTES and LAB RESULTtables.",
+        "type": "unspecified",
+        "valid_values": "Any, including null.",
+        "implementation_guidelines": "A non-null value is the signal that more information will be found in free-text form in the <code>lab_notes</code> table."
+      }
+
+
+    ],
+    "comments": [
+    {
+      "title": "Resulted labs only",
+      "comment": "If a test is not resulted for whatever reason (e.g. specimen not sufficient, patient did not show), then that test should not appear in the table."
+    },
+    {
+      "title": "Date Columns",
+      "comment": "Sites may not have all three date variables filled. In most situations order date will be the last choice of dates used when results are being studied. Multi-site programs could apply logic to pull the date first from lab_dt. If missing then pull from result_dt. If missing then the study may want to pull from order_dt."
+    }]
+
+  },
+  "VitalSigns":
+  {
+    "name": "Vital Signs",
+    "description": "The VITAL SIGNS table includes physiological measures taken by health professionals during encounters. Additional measures on anthropometry are also included.",
+    "columns": [
+    {
+      "name": "MRN",
+      "definition": "Medical record number is the unique patient identifier within a site and should never leave the site",
+      "type": "char",
+      "valid_values": "Unique to each patient at each site",
+      "implementation_guidelines": "Used to link people across files within a site. May or may not contain the official local indigenous person identifier (e.g., 'medical record number')."
+    },
+    {
+      "name": "measure_date",
+      "definition": "The date on which these vital signs were measured",
+      "type": "num",
+      "length": 4,
+      "valid_values": "Any SAS Date"
+    },
+    {
+      "name": "measure_time",
+      "definition": "The time at which these vital signs were measured",
+      "type": "num",
+      "length": 4,
+      "valid_values": "Any SAS Time",
+      "implementation_guidelines": "Preferred to be the actual time of measurement but may also be a check-in time"
+    },
+    {
+      "name": "enc_id",
+      "definition": "Foreign key to the ENCOUNTER table uniquely identifying the encounter; unlinkable records should contain null/missing values",
+      "type": "char",
+      "valid_values": "Unique to each encounter at each site",
+      "implementation_guidelines": "Only populate if there is an encounter in the utilization file that can be definitively matched to the vital record"
+    },
+    {
+      "name": "enctype",
+      "definition": "The type of the encounter at which this measure was taken",
+      "valid_values": "As defined for the enctype column in the <a href='utilization.html'>utilization encounter</a> table.",
+      "implementation_guidelines": "If the encounter type is known, please populate even if you are unable to populate ENC_ID"
+    },
+    {
+      "name": "ht",
+      "definition": "The patient's height in inches at this measure",
+      "type": "num",
+      "length": 8,
+      "valid_values": "Positive real number",
+      "implementation_guidelines": "Set to missing if: <ul><li>age = 0 and (ht < 3 or ht > 41)</li><li>age between 1 and 5 and (ht < 12 or ht > 60)</li><li>age between 6 and 12 and (ht < 20 or ht > 84)</li><li>age between 13 and 17 and (ht < 30 or ht > 108)</li><li>age > = 18 and (ht < 36 or ht > 108)</li></ul> Only populate if measured at the visit. Do not impute/carry values from other dates."
+    },
+    {
+      "name": "wt",
+      "definition": "The patient's weight measured in pounds at this measure",
+      "type": "num",
+      "length": 8,
+      "valid_values": "Positive real number",
+      "implementation_guidelines": "Set to missing if: <ul><li>age = 0 and (wt < 0 or wt > 80)</li><li>age between 1 and 5 and (wt < 9 or wt > 200)</li><li>age between 6 and 12 and (wt < 20 or wt > 350)</li><li>age between 13 and 17 and (wt < 25 or wt > 650)</li><li>age > = 18 and (wt < 50 or wt > 1000)</li></ul>  Only populate if measured at the visit. Do not impute/carry values from other dates."
+    },
+    {
+      "name": "systolic",
+      "definition": "The systolic blood pressure measured in mmHg of the patient at this time",
+      "type": "num",
+      "length": 4,
+      "valid_values": "Integer",
+      "implementation_guidelines": "Set to missing if < 50 or > 300  Only populate if measured at the visit. Do not impute/carry values from other dates."
+    },
+    {
+      "name": "diastolic",
+      "definition": "The diastolic blood pressure measured in mmHg of the patient at this time",
+      "type": "num",
+      "length": 4,
+      "valid_values": "Integer",
+      "implementation_guidelines": "missing if < 20 or > 160 Only populate if measured at the visit. Do not impute/carry values from other dates. Variable name Definition  Type(Len) Values  Implementation Guidelines"
+    },
+    {
+      "name": "bp_type",
+      "definition": "The type of blood pressure taken",
+      "type": "char",
+      "length": 1,
+      "valid_values": [
+      {
+        "value": "R",
+        "meaning": "Rooming "
+      },
+      {
+        "value": "O",
+        "meaning": "Orthostatic "
+      },
+      {
+        "value": "M",
+        "meaning": "Multiple "
+      },
+      {
+        "value": "E",
+        "meaning": "Extended"
+      }]
+    },
+    {
+      "name": "position",
+      "definition": "The patient's position for orthostatic blood pressure measurements",
+      "type": "char",
+      "length": 1,
+      "valid_values": [
+      {
+        "value": "1",
+        "meaning": "Sitting "
+      },
+      {
+        "value": "2",
+        "meaning": "Standing "
+      },
+      {
+        "value": "3",
+        "meaning": "Supine "
+      },
+      {
+        "value": "Null",
+        "meaning": "Unknown"
+      }]
+
+    },
+    {
+      "name": "ht_raw",
+      "definition": "The height measurement as reported in source data without standardization or cleaning",
+      "type": "char",
+      "implementation_guidelines": "Examples may include specific values, ranges, or categories"
+    },
+    {
+      "name": "wt_raw",
+      "definition": "The weight measurement as reported in source data without standardization or cleaning",
+      "type": "char",
+      "implementation_guidelines": "Examples may include specific values, ranges, or categories"
+    },
+    {
+      "name": "bmi_raw",
+      "definition": "The patient's body mass index measurement as reported in source data without standardization, calculation, or cleaning ",
+      "type": "char"
+    },
+    {
+      "name": "head_cir_raw",
+      "definition": "The patient's head circumference measurement as reported in source data without standardization or cleaning",
+      "type": "char"
+    },
+    {
+      "name": "systolic_raw",
+      "definition": "The systolic blood pressure measurement as reported in source data without standardization or cleaning ",
+      "type": "char",
+      "implementation_guidelines": "Examples may include specific values, ranges, or categories"
+    },
+    {
+      "name": "diastolic_raw",
+      "definition": "The diastolic blood pressure measurement as reported in source data without standardization or cleaning",
+      "type": "char",
+      "implementation_guidelines": "Examples may include specific values, ranges, or categories"
+    },
+    {
+      "name": "respir_raw",
+      "definition": "The respirations in breaths per minute measurement as reported in source data without standardization or cleaning",
+      "type": "char"
+    },
+    {
+      "name": "temp_raw",
+      "definition": "The patient's body temperature measurement as reported in source data without standardization or cleaning",
+      "type": "char"
+    },
+    {
+      "name": "pulse_raw",
+      "definition": "The heartbeats per minute measurement as reported in source data without standardization or cleaning ",
+      "type": "char"
+    }],
+    "primary_key": "None",
+    "comments": [
+    {
+      "title": "Body Mass Index",
+      "comment": "Body Mass Index (BMI) is not a cleaned variable on the VITAL SIGNS table. Users are recommended to calculate BMI at the time of actual need making use of the VDW Standard Macros."
+    },
+    {
+      "title": "Raw Columns",
+      "comment": "The RAW variables' primary purpose is for capturing categories or ranges that may be recorded in the system (e.g. for BMI_RAW values like 'overweight', or '25.0-25.9' or for DIASTOLIC_RAW values like 'HYPERTENSION' or '100-109')."
+    }]
+  },
+  "SocialHx":
+  {
+    "name": "Vital Signs",
+    "description": "<p>The SOCIAL HISTORY table contains behavioral measures taken by health professionals during clinic visits, over the telephone, or via questionnaires. These measures include the use of tobacco, alcohol, and illegal drugs as well as sexual behavior and contraceptive use.</p>",
+    "columns": [
+      {
+        "name": "MRN",
+        "definition": "Medical record number is the unique patient identifier within a site and should never leave the site",
+        "type": "char",
+        "valid_values": "Unique to each patient at each site",
+        "implementation_guidelines": "Used to link people across files within a site. May or may not contain the official local indigenous person identifier (e.g., 'medical record number')."
+      }
+      ,
+      {
+        "name": "contact_date",
+        "definition": "Date of encounter or date of social history data collection",
+        "type": "num",
+        "length": 4,
+        "valid_values": "SAS date, missing is not allowed"
+      },
+      {
+        "name": "enc_id",
+        "definition": "Foreign key to the ENCOUNTER table uniquely identifying the encounter; unlinkable records should contain null/missing values",
+        "type": "char",
+        "valid_values": "SAS date or null"
+      },
+      {
+        "name": "education_years",
+        "definition": "Number of years of education completed recorded as free text",
+        "type": "char",
+        "valid_values": "Free text, or null "
+      },
+      {
+        "name": "sex_active",
+        "definition": "Whether the person is sexually active",
+        "type": "char",
+        "length": 1,
+        "valid_values": [
+           {"value":"Y", "meaning":"Yes "}
+          , {"value":"N", "meaning":"No "}
+          , {"value":"W", "meaning":"Not currently (Was) "}
+          , {"value":"X", "meaning":"Not asked "}
+          , {"value":"U", "meaning":"Unknown or missing"}
+          ]
+      },
+      {
+        "name": "sex_female_partner",
+        "definition": "Whether the person has female sex partners",
+        "type": "char",
+        "length": 1,
+        "valid_values": [
+           {"value":"Y", "meaning":"Yes "}
+          , {"value":"N", "meaning":"No "}
+          , {"value":"X", "meaning":"Not asked "}
+          , {"value":"U", "meaning":"Unknown or missing"}
+          ]
+      },
+      {
+        "name": "sex_male_partner",
+        "definition": "Whether the person has male sex partners",
+        "type": "char",
+        "length": 1,
+        "valid_values": [
+           {"value":"Y", "meaning":"Yes "}
+          , {"value":"N", "meaning":"No "}
+          , {"value":"X", "meaning":"Not asked "}
+          , {"value":"U", "meaning":"Unknown or missing"}
+          ]
+      },
+      {
+        "name": "sex_comment",
+        "definition": "Comment about the person's sexual activity",
+        "type": "char",
+        "valid_values": "Free text, or null "
+      },
+      {
+        "name": "bc_abstinence",
+        "definition": "Whether the person uses abstinence as birth control",
+        "type": "char",
+        "length": 1,
+        "valid_values": [
+           {"value":"Y", "meaning":"Yes "}
+          , {"value":"N", "meaning":"No "}
+          , {"value":"X", "meaning":"Not asked "}
+          , {"value":"U", "meaning":"Unknown or missing"}
+          ]
+
+      },
+      {
+        "name": "bc_condom",
+        "definition": "Whether the person uses condoms as birth control",
+        "type": "char",
+        "length": 1,
+        "valid_values": [
+           {"value":"Y", "meaning":"Yes "}
+          , {"value":"N", "meaning":"No "}
+          , {"value":"X", "meaning":"Not asked "}
+          , {"value":"U", "meaning":"Unknown or missing"}
+          ]
+
+      },
+      {
+        "name": "bc_diaphragm",
+        "definition": "Whether the person uses a diaphragm as birth control",
+        "type": "char",
+        "length": 1,
+        "valid_values": [
+           {"value":"Y", "meaning":"Yes "}
+          , {"value":"N", "meaning":"No "}
+          , {"value":"X", "meaning":"Not asked "}
+          , {"value":"U", "meaning":"Unknown or missing"}
+          ]
+
+      },
+      {
+        "name": "bc_implant",
+        "definition": "Whether the person uses an implant as birth control",
+        "type": "char",
+        "length": 1,
+        "valid_values": [
+           {"value":"Y", "meaning":"Yes "}
+          , {"value":"N", "meaning":"No "}
+          , {"value":"X", "meaning":"Not asked "}
+          , {"value":"U", "meaning":"Unknown or missing"}
+          ]
+
+      },
+      {
+        "name": "bc_injection",
+        "definition": "Whether the person uses injections as birth control",
+        "type": "char",
+        "length": 1,
+        "valid_values": [
+           {"value":"Y", "meaning":"Yes "}
+          , {"value":"N", "meaning":"No "}
+          , {"value":"X", "meaning":"Not asked "}
+          , {"value":"U", "meaning":"Unknown or missing"}
+          ]
+
+      },
+      {
+        "name": "bc_inserts",
+        "definition": "Whether the person uses inserts as birth control",
+        "type": "char",
+        "length": 1,
+        "valid_values": [
+           {"value":"Y", "meaning":"Yes "}
+          , {"value":"N", "meaning":"No "}
+          , {"value":"X", "meaning":"Not asked "}
+          , {"value":"U", "meaning":"Unknown or missing"}
+          ]
+
+      },
+      {
+        "name": "bc_iud",
+        "definition": "Whether the person uses an intrauterine device (IUD) as birth control",
+        "type": "char",
+        "length": 1,
+        "valid_values": [
+           {"value":"Y", "meaning":"Yes "}
+          , {"value":"N", "meaning":"No "}
+          , {"value":"X", "meaning":"Not asked "}
+          , {"value":"U", "meaning":"Unknown or missing"}
+          ]
+
+      },
+      {
+        "name": "bc_pill",
+        "definition": "Whether the person uses birth control pills",
+        "type": "char",
+        "length": 1,
+        "valid_values": [
+           {"value":"Y", "meaning":"Yes "}
+          , {"value":"N", "meaning":"No "}
+          , {"value":"X", "meaning":"Not asked "}
+          , {"value":"U", "meaning":"Unknown or missing"}
+          ]
+
+      },
+      {
+        "name": "bc_rhythm",
+        "definition": "Whether the person uses the rhythm method as birth control",
+        "type": "char",
+        "length": 1,
+        "valid_values": [
+           {"value":"Y", "meaning":"Yes "}
+          , {"value":"N", "meaning":"No "}
+          , {"value":"X", "meaning":"Not asked "}
+          , {"value":"U", "meaning":"Unknown or missing"}
+          ]
+
+      },
+      {
+        "name": "bc_spermicide",
+        "definition": "Whether the preson uses spermicide as birth control",
+        "type": "char",
+        "length": 1,
+        "valid_values": [
+           {"value":"Y", "meaning":"Yes "}
+          , {"value":"N", "meaning":"No "}
+          , {"value":"X", "meaning":"Not asked "}
+          , {"value":"U", "meaning":"Unknown or missing"}
+          ]
+
+      },
+      {
+        "name": "bc_sponge",
+        "definition": "Whether the person uses a sponge as birth control",
+        "type": "char",
+        "length": 1,
+        "valid_values": [
+           {"value":"Y", "meaning":"Yes "}
+          , {"value":"N", "meaning":"No "}
+          , {"value":"X", "meaning":"Not asked "}
+          , {"value":"U", "meaning":"Unknown or missing"}
+          ]
+
+      },
+      {
+        "name": "bc_surgical",
+        "definition": "Whether a surgery (e.g. vasectomy, hysterectomy) significantly reduces the chance of contraception",
+        "type": "char",
+        "length": 1,
+        "valid_values": [
+           {"value":"Y", "meaning":"Yes "}
+          , {"value":"N", "meaning":"No "}
+          , {"value":"X", "meaning":"Not asked "}
+          , {"value":"U", "meaning":"Unknown or missing"}
+          ]
+
+      },
+      {
+        "name": "bc_other",
+        "definition": "Whether a surgery (e.g. vasectomy, hysterectomy) significantly reduces the chance of contraception",
+        "type": "char",
+        "length": 1,
+        "valid_values": [
+           {"value":"Y", "meaning":"Yes "}
+          , {"value":"N", "meaning":"No "}
+          , {"value":"X", "meaning":"Not asked "}
+          , {"value":"U", "meaning":"Unknown or missing"}
+          ]
+
+      },
+      {
+        "name": "bc_comment",
+        "definition": "Comment about the person's sexual activity",
+        "type": "char",
+        "valid_values": "Free text, or null "
+      },
+      {
+        "name": "alcohol_use",
+        "definition": "Whether the person is an alcohol drinker",
+        "type": "char",
+        "length": 1,
+        "valid_values": [
+           {"value":"Y", "meaning":"Yes "}
+          , {"value":"N", "meaning":"No "}
+          , {"value":"Q", "meaning":"Quit/Former"}
+          , {"value":"X", "meaning":"Not asked "}
+          , {"value":"U", "meaning":"Unknown or missing"}
+          ]
+      },
+      {
+        "name": "alcohol_beer_nwk",
+        "definition": "The number of drinks per week, beer",
+        "type": "char",
+        "valid_values": "Drinks/wk, beer; could be a range; 0 is valid "
+      },
+      {
+        "name": "alcohol_wine_nwk",
+        "definition": "The number of drinks per week, wine",
+        "type": "char",
+        "valid_values": "Drinks/wk, wine; could be a range; 0 is valid "
+      },
+      {
+        "name": "alcohol_liq_nwk",
+        "definition": "The number of drinks per week, hard liquor",
+        "type": "char",
+        "valid_values": "Drinks/wk, liquor; could be a range; 0 is valid "
+      },
+      {
+        "name": "alcohol_unspec_nwk",
+        "definition": "The number of drinks per week, unspecified type",
+        "type": "char",
+        "valid_values": "Drinks/wk, unspecified; could be a range; 0 is valid  "
+      },
+      {
+        "name": "alcohol_comment",
+        "definition": "Comment about the person's alcohol use",
+        "type": "char",
+        "valid_values": "Free text, or null "
+      },
+      {
+        "name": "illicit_drug_use",
+        "definition": "Whether the person uses illicit drugs",
+        "type": "char",
+        "length": 1,
+        "valid_values": "Y = Yes N = No Q = Quit/Former X = Not asked U = Unknown or missing Includes marijuana use"
+      },
+      {
+        "name": "illicit_drug_use_freq",
+        "definition": "Frequency of illicit drug use as free text",
+        "type": "char",
+        "valid_values": "Free text, or null "
+      },
+      {
+        "name": "illicit_drug_use_comment",
+        "definition": "Comment about the person's illicit drug use",
+        "type": "char",
+        "valid_values": "Free text, or null "
+      },
+      {
+        "name": "iv_drug_use",
+        "definition": "Whether the person uses IV drugs",
+        "type": "char",
+        "length": 1,
+        "valid_values": "Y = Yes N = No Q = Quit/Former X = Not asked U = Unknown or missing Does not include infusion/cancer treatment drugs."
+      },
+      {
+        "name": "tobacco_use",
+        "definition": "Whether the person is a user of tobacco",
+        "type": "char",
+        "length": 1,
+        "valid_values": [
+         {"value": "Y", "meaning":"Yes / Current "}
+        , {"value": "I", "meaning":"Infrequent "}
+        , {"value": "N", "meaning":"Never "}
+        , {"value": "Q", "meaning":"Quit / Former "}
+        , {"value": "P", "meaning":"Passive/Environmental/Second hand "}
+        , {"value": "X", "meaning":"Not Asked "}
+        , {"value": "U", "meaning":"Unknown or missing"}
+      ]
+        , "implementation_guidelines": "Include tobacco status as of the visit date. Unknown values should be left blank.  The not asked value should be used only when it is a valid response from your system."
+      },
+      {
+        "name": "tobacco_use_years",
+        "definition": "The number of years the person used tobacco",
+        "type": "char",
+        "valid_values": "Free text, or null "
+      },
+      {
+        "name": "tobacco_packs_day",
+        "definition": "Number of packs smoked per day as free text",
+        "type": "char",
+        "valid_values": "Free text, or null "
+      },
+      {
+        "name": "tobacco_smokeless_use",
+        "definition": "Whether the person uses smokeless tobacco",
+        "type": "char",
+        "length": 1,
+        "valid_values": [
+           {"value": "Y", "meaning": "Yes / Current "}
+          , {"value": "I", "meaning": "Infrequent "}
+          , {"value": "N", "meaning": "No / Never used "}
+          , {"value": "Q", "meaning": "Quit / Former "}
+          , {"value": "X", "meaning": "Not asked "}
+          , {"value": "U", "meaning": "Unknown or missing"}]
+      },
+      {
+        "name": "tobacco_smokeless_start_date",
+        "definition": "Date the person started using smokeless tobacco",
+        "type": "num",
+        "length": 4,
+        "valid_values": "SAS Date, missing allowed "
+      },
+      {
+        "name": "tobacco_smokeless_quit_date",
+        "definition": "Date the person quit using smokeless tobacco",
+        "type": "num",
+        "length": 4,
+        "valid_values": "SAS Date, missing allowed "
+      },
+      {
+        "name": "tobacco_smoking_use",
+        "definition": "Whether the person uses smoking tobacco",
+        "type": "char",
+        "length": 1,
+        "valid_values": "E = Current every day S = Current some days H = Heavy smoker L = Light smoker N = Never P = Passive Q = Former U = Unknown X = Never assessed Y = Smoker - current status unknown  "
+      },
+      {
+        "name": "tobacco_smoking_start_date",
+        "definition": "Date the person started using smoked tobacco",
+        "type": "num",
+        "length": 4,
+        "valid_values": "SAS Date, missing allowed "
+      },
+      {
+        "name": "tobacco_smoking_quit_date",
+        "definition": "Date the person quit using smoked tobacco",
+        "type": "num",
+        "length": 4,
+        "valid_values": "SAS Date, missing allowed "
+      },
+      {
+        "name": "tobacco_chew",
+        "definition": "Whether the person uses chew tobacco",
+        "type": "char",
+        "length": 1,
+        "valid_values": [
+           {"value":"Y", "meaning":"Yes "}
+          , {"value":"N", "meaning":"No "}
+          , {"value":"X", "meaning":"Not asked "}
+          , {"value":"U", "meaning":"Unknown or missing"}
+          ]
+
+      },
+      {
+        "name": "tobacco_cigarettes",
+        "definition": "Whether the person uses tobacco cigarettes",
+        "type": "char",
+        "length": 1,
+        "valid_values": [
+           {"value":"Y", "meaning":"Yes "}
+          , {"value":"N", "meaning":"No "}
+          , {"value":"X", "meaning":"Not asked "}
+          , {"value":"U", "meaning":"Unknown or missing"}
+          ]
+
+      },
+      {
+        "name": "tobacco_cigars",
+        "definition": "Whether the person uses tobacco cigars",
+        "type": "char",
+        "length": 1,
+        "valid_values": [
+           {"value":"Y", "meaning":"Yes "}
+          , {"value":"N", "meaning":"No "}
+          , {"value":"X", "meaning":"Not asked "}
+          , {"value":"U", "meaning":"Unknown or missing"}
+          ]
+
+      },
+      {
+        "name": "tobacco_pipes",
+        "definition": "Whether the person uses tobacco pipes",
+        "type": "char",
+        "length": 1,
+        "valid_values": [
+           {"value":"Y", "meaning":"Yes "}
+          , {"value":"N", "meaning":"No "}
+          , {"value":"X", "meaning":"Not asked "}
+          , {"value":"U", "meaning":"Unknown or missing"}
+          ]
+
+      },
+      {
+        "name": "tobacco_snuff",
+        "definition": "Whether the person uses snuff tobacco",
+        "type": "char",
+        "length": 1,
+        "valid_values": [
+           {"value":"Y", "meaning":"Yes "}
+          , {"value":"N", "meaning":"No "}
+          , {"value":"X", "meaning":"Not asked "}
+          , {"value":"U", "meaning":"Unknown or missing"}
+          ]
+
+      },
+      {
+        "name": "tobacco_unspecified",
+        "definition": "Whether the person uses an unspecified form of tobacco",
+        "type": "char",
+        "length": 1,
+        "valid_values": [
+           {"value":"Y", "meaning":"Yes "}
+          , {"value":"N", "meaning":"No "}
+          , {"value":"X", "meaning":"Not asked "}
+          , {"value":"U", "meaning":"Unknown or missing"}
+          ]
+
+      },
+      {
+        "name": "tobacco_comment",
+        "definition": "Comment about the person's tobacco use",
+        "type": "char",
+        "valid_values": "Free text, or null "
+      }
+
+
+
+    ],
+    "primary_key": "None",
+    "comments": [
+      {
+        "title": "Consider Patient Privacy",
+        "comment": "Social history measures may carry special privacy concerns. Beyond the nature of these variables, the use of free text fields in any content area warrants additional care as they may contain personal health information. Users are encouraged to consult with privacy experts and/or experienced users before extracting data if they are unfamiliar with these additional data sensitivities."
+      },
+      {
+        "title": "Tobacco Is Hard",
+        "comment": "Because of the range of tobacco products available and the variability in the level of detail recorded, precision and capture of tobacco related variables may vary both across and within sites."
+      },
+      {
+        "title": "People Are Unreliable",
+        "comment": "Consistency of response is also not guaranteed over time."
+      }
+
+    ]
+  }
+}

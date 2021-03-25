@@ -1,0 +1,207 @@
+/*@import url('https://rsms.me/inter/inter.css');*/
+body {
+    display: flex;
+    flex-direction: column;
+    /*align-items: center;*/
+    /*padding: 8em 2em;*/
+    letter-spacing: -0.011em;
+    font-family: 'Inter var', sans-serif;
+    color: #34495e;
+    background: #f8f9fa;
+    margin-top: 0px;
+}
+
+table {
+    border-collapse: collapse;
+    /*table-layout: fixed;*/
+    width: 100%;
+}
+
+thead {
+    font-size: 1em;
+    letter-spacing: 0;
+    /*font-weight: 50;*/
+    text-align: left;
+}
+
+thead th {
+    position: sticky;
+    top: 0;
+    color: #f8f9fa;
+    background: #34495e;
+    padding: 1em 0.8rem;
+}
+th:not(:last-child), td:not(:last-child) {
+    border-right: 1px solid #34495e;
+}
+
+.row-header {
+    color: #f8f9fa;
+    background: #34495e;
+    padding: 1em 0.8rem;
+    font-weight: 700;
+}
+
+td span {
+  display: block;
+  font-size: 0.75em;
+  font-weight: normal;
+  color:#d1ceba;
+}
+
+span.update-frequency {
+  color:grey;
+  text-align: right;
+  vertical-align: bottom;
+  text-transform: uppercase;
+  border-top: 1px black ;
+}
+
+tbody tr:nth-child(odd) {
+    background: #f0f0f3;
+}
+
+tbody tr:hover {
+    background: #d7ecec;
+}
+
+td {
+    text-transform: capitalize;
+    word-wrap: break-word;
+}
+
+.row-header a {
+    color:#d1ceba;
+    text-transform: capitalize;
+}
+
+/*tbody .text {
+    font-size: 1em;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}*/
+
+.tooltip {
+    opacity: 0;
+    position: absolute;
+    top: -12px;
+    left: 0;
+    padding: 0.6em 1em;
+    background: #fff;
+    text-align: left ;
+    border: 1px solid #ddd;
+    z-index: 10;
+    transition: all 0.2s ease-out;
+    pointer-events: none;
+}
+
+.vdw-spec {
+    width: 70% ;
+}
+
+.affiliated {
+    fill: #96CAF8 ;
+    opacity: 1.0;
+}
+
+.hcsrn {
+    fill: #0056A1 ;
+    opacity: 1.0;
+}
+.unaffiliated {
+    fill: #609DD5;
+
+}
+
+rect {
+    fill: #34495e ;
+    opacity: 0.4 ;
+}
+
+#col-tab {
+    width: 100% ;
+}
+#col-tab, td {
+    text-transform: none ;
+    padding: .5em;
+}
+
+#race-examples {
+    width: 40%;
+    align-self: start ;
+}
+
+.hidden {
+    display: none;
+}
+
+dt {
+    float: left;
+    font-weight: bold;
+}
+
+dt::after {
+    content: ":";
+}
+
+dd {
+    margin-left: 2em;
+    margin-bottom: 5px;
+}
+
+path {
+    stroke: white;
+    stroke-width: 2px;
+}
+
+.research-center {
+    fill: gold ;
+    stroke: #609DD5 ;
+    stroke-width: 2px;
+    transition: 1s ;
+}
+
+.highlighted-research-center {
+    fill: red ;
+    stroke-width: 2px;
+    stroke: #609DD5 ;
+    transition: 1s ;
+}
+
+.site-name {
+    font-size: x-large;
+}
+
+circle:hover {
+    fill: lightgreen ;
+}
+
+.voronoi {
+    fill: transparent;
+    stroke:transparent;
+}
+
+rect.not-implemented {
+    opacity: 0 ;
+}
+
+/* normal display of valid values in specs*/
+td.norm-vv pre {
+    display:none ;
+}
+
+td.norm-vv dl {
+    display:display ;
+}
+
+/* format display of valid values in specs*/
+td.format-vv pre {
+    display:display ;
+    font-size: 1.2em ;
+}
+
+td.format-vv dl {
+    display:none ;
+}
+
