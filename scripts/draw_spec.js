@@ -1,12 +1,13 @@
 const spec_cols = [
   {label: "Column Name"               , id: d => `${d.name}-cn`, format: d => d.name                                    , class:"norm"},
   {label: "Definition"                , id: d => `${d.name}-df`, format: d => d.definition                              , class:"norm"},
-  {label: "Type (length)"              , id: d => `${d.name}-tl`, format: d => format_typelens(d.type, d.length)         , class:"norm"},
-  {label: "Valid Values"              , id: d => `${d.name}-vv`, format: d => format_vallists_vf(d)                     , class:"norm-vv", title: "Click to turn this into a SAS format statement"},
+  {label: "Type (length)"             , id: d => `${d.name}-tl`, format: d => format_typelens(d.type, d.length)         , class:"norm"},
+  {label: "Valid Values"              , id: d => `${d.name}-vv`, format: d => format_vallists_vf(d)                     , class:"norm-vv", title: "Click to turn this into a SAS format statement", onclick: vv_click},
   {label: "Implementation Guidelines" , id: d => `${d.name}-ig`, format: d => format_igs(d.implementation_guidelines)   , class:"hideable"}
   ]
 
 function vv_click(datum) {
+  // console.log(d3.event) ;
   clickedCell = `td#${datum.name}-vv` ;
   td = d3.select(clickedCell) ;
   currentClass = td._groups[0][0].className ;
@@ -101,11 +102,11 @@ async function draw_spec(spec_name, with_igs = true) {
       .selectAll("td")
       .data(spec_cols)
       .enter().append("td")
-      .attr("class", column => column.class)
-      .attr("title", column => column.title === undefined ? "" : column.title)
-      .attr("id", column => column.id(d))
-      .html(column => column.format(d))
-      .on("click", () => vv_click(d))
+        .attr("class", column => column.class)
+        .attr("title", column => column.title === undefined ? "" : column.title)
+        .attr("id", column => column.id(d))
+        .html(column => column.format(d))
+        .on("click", column => column.onclick === undefined ? null : column.onclick(d))
     ;
   }) ;
 
